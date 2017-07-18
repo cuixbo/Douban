@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="divider_height">1px</dimen>
+    <dimen name="text_x_large">18sp</dimen>
+    <dimen name="text_large">15sp</dimen>
+    <dimen name="text_middle">14sp</dimen>
+    <dimen name="text_small">12sp</dimen>
+    <dimen name="text_x_small">10sp</dimen>
+</resources>
