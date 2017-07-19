@@ -24,6 +24,7 @@ public class HotMoviePresenter implements HotMovieContract.Presenter {
 
     @Override
     public void start() {
+
         getHotMovies();
     }
 

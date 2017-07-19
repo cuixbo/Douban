@@ -2,7 +2,6 @@ package com.xbc.douban.movie.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +11,7 @@ import android.view.ViewGroup;
 import com.xbc.douban.R;
 import com.xbc.douban.base.BaseFragment;
 import com.xbc.douban.movie.adapter.MovieAdapter;
+import com.xbc.douban.movie.adapter.RecyclerViewHelper;
 import com.xbc.douban.movie.contract.HotMovieContract;
 import com.xbc.douban.movie.model.SubjectsBean;
 import com.xbc.douban.movie.presenter.HotMoviePresenter;
@@ -27,7 +27,7 @@ public class HotMovieFragment extends BaseFragment implements HotMovieContract.V
 
     private HotMovieContract.Presenter mPresenter;
 
-    private RecyclerView recyclerView;
+    private RecyclerView mRecyclerView;
     private List<SubjectsBean> mData = new ArrayList<SubjectsBean>();
     private MovieAdapter mAdapter = new MovieAdapter(mData);
 
@@ -52,19 +52,48 @@ public class HotMovieFragment extends BaseFragment implements HotMovieContract.V
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        initIntent();
         initView();
+        initListener();
         mPresenter.start();
     }
 
+    private void initIntent() {
+
+    }
+
     private void initView() {
-        recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view);
+        mRecyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);
-        recyclerView.setLayoutManager(layoutManager);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
-        recyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(layoutManager);
+//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL);
+//        InsetDrawable id = new InsetDrawable(new ColorDrawable(getResources().getColor(R.color.color_main)),
+//                                             (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 45, getResources().getDisplayMetrics()),
+//                                             0,
+//                                             0,
+//                                             0);
+//
+//        new ShapeDrawable(new Shape() {
+//            @Override
+//            public void draw(Canvas canvas, Paint paint) {
+//
+//            }
+//        });
+//
+//        dividerItemDecoration.setDrawable(id);
+        mRecyclerView.addItemDecoration(new RecyclerViewHelper.InsetDividerItemDecoration(mContext));
+        mRecyclerView.setAdapter(mAdapter);
 
+    }
+
+    private void initListener() {
+        mAdapter.setOnItemClickListener(new RecyclerViewHelper.OnRecycleViewItemClickListener() {
+            @Override
+            public void onItemClick(View item, int position) {
+                log(position + "");
+            }
+        });
     }
 
 
@@ -73,5 +102,10 @@ public class HotMovieFragment extends BaseFragment implements HotMovieContract.V
         mData.clear();
         mData.addAll(subjects);
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void setRefresh(boolean refresh) {
+
     }
 }
