@@ -24,7 +24,7 @@ public class HotMoviePresenter implements HotMovieContract.Presenter {
 
     @Override
     public void start() {
-
+        mHotMovieView.setRefresh(true);
         getHotMovies();
     }
 
@@ -38,11 +38,13 @@ public class HotMoviePresenter implements HotMovieContract.Presenter {
                     public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                         mHotMovieView.notifyDataSetChanged(response.body().subjects);
                         Log.log("onResponse");
+                        mHotMovieView.setRefresh(false);
                     }
 
                     @Override
                     public void onFailure(Call<MovieResponse> call, Throwable t) {
                         Log.log("onFailure:" + t.getLocalizedMessage());
+                        mHotMovieView.setRefresh(false);
                     }
                 });
     }
