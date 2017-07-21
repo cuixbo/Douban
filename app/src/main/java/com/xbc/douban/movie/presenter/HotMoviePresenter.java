@@ -1,7 +1,7 @@
 package com.xbc.douban.movie.presenter;
 
-import com.xbc.douban.api.RetrofitManager;
 import com.xbc.douban.movie.contract.HotMovieContract;
+import com.xbc.douban.movie.model.MovieModel;
 import com.xbc.douban.movie.model.MovieResponse;
 import com.xbc.douban.util.Log;
 
@@ -16,6 +16,7 @@ import retrofit2.Response;
 public class HotMoviePresenter implements HotMovieContract.Presenter {
 
     HotMovieContract.View mHotMovieView;
+    MovieModel mMovieModel = MovieModel.getInstance();
 
     public HotMoviePresenter(HotMovieContract.View mHotMovieView) {
         this.mHotMovieView = mHotMovieView;
@@ -30,22 +31,19 @@ public class HotMoviePresenter implements HotMovieContract.Presenter {
 
     @Override
     public void getHotMovies() {
-        RetrofitManager.getInstance()
-                .getMovieService()
-                .getInTheaters()
-                .enqueue(new Callback<MovieResponse>() {
-                    @Override
-                    public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-                        mHotMovieView.notifyDataSetChanged(response.body().subjects);
-                        Log.log("onResponse");
-                        mHotMovieView.setRefresh(false);
-                    }
+        mMovieModel.getHotMovies(new Callback<MovieResponse>() {
+            @Override
+            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
+                mHotMovieView.notifyDataSetChanged(response.body().subjects);
+                Log.log("onResponse");
+                mHotMovieView.setRefresh(false);
+            }
 
-                    @Override
-                    public void onFailure(Call<MovieResponse> call, Throwable t) {
-                        Log.log("onFailure:" + t.getLocalizedMessage());
-                        mHotMovieView.setRefresh(false);
-                    }
-                });
+            @Override
+            public void onFailure(Call<MovieResponse> call, Throwable t) {
+                Log.log("onFailure:" + t.getLocalizedMessage());
+                mHotMovieView.setRefresh(false);
+            }
+        });
     }
 }

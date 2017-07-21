@@ -3,6 +3,7 @@
     android:id="@+id/ll_title"
     android:layout_width="match_parent"
     android:layout_height="56dp"
+    android:background="@color/colorAccent"
     android:orientation="horizontal">
 
     <com.xbc.douban.widget.IconView
@@ -14,9 +15,9 @@
         android:gravity="center"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:text="@string/icon_all"
-        android:textColor="#ff0033"
-        android:textSize="30sp"
+        android:text="@string/icon_map"
+        android:textColor="@color/white"
+        android:textSize="24sp"
         android:visibility="visible"/>
 
     <TextView
@@ -26,7 +27,9 @@
         android:layout_toLeftOf="@+id/btn_right"
         android:layout_toRightOf="@id/btn_left"
         android:gravity="center"
-        android:text="douban"/>
+        android:text="douban"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_large"/>
 
     <com.xbc.douban.widget.IconView
         android:id="@+id/btn_right"
@@ -37,8 +40,8 @@
         android:gravity="center"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:text="@string/icon_refresh"
-        android:textColor="#ff0033"
-        android:textSize="30sp"
+        android:text="@string/icon_category"
+        android:textColor="@color/white"
+        android:textSize="24sp"
         android:visibility="visible"/>
 </RelativeLayout>

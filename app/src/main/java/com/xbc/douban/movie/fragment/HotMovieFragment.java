@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.xbc.douban.R;
 import com.xbc.douban.base.BaseFragment;
 import com.xbc.douban.movie.adapter.MovieAdapter;
-import com.xbc.douban.movie.adapter.RecyclerViewHelper;
+import com.xbc.douban.base.RecyclerViewHelper;
 import com.xbc.douban.movie.contract.HotMovieContract;
 import com.xbc.douban.movie.model.SubjectsBean;
 import com.xbc.douban.movie.presenter.HotMoviePresenter;
@@ -75,6 +75,8 @@ public class HotMovieFragment extends BaseFragment implements HotMovieContract.V
                 new RecyclerViewHelper
                         .InsetDividerItemDecoration(mContext, DividerItemDecoration.VERTICAL)
                         .setMargin(40, 40, 0, 0)
+                        .setHeaderDividersEnabled(false)
+                        .setFooterDividersEnabled(false)
         );
         mRecyclerView.setAdapter(mAdapter);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.color_main);

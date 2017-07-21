@@ -1,4 +1,4 @@
-package com.xbc.douban.movie.adapter;
+package com.xbc.douban.base;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -41,6 +41,10 @@ public abstract class RecyclerViewHelper {
 
         private final Rect mBounds = new Rect();
 
+        private boolean mHeaderDividersEnabled = true;
+        private boolean mFooterDividersEnabled = true;
+        private boolean mLastItemDividerEnabled = true;//除了footer之外的最后一个item的分割线
+
         public InsetDividerItemDecoration(Context context, int orientation) {
             final TypedArray a = context.obtainStyledAttributes(ATTRS);
             mDivider = a.getDrawable(0);
@@ -53,6 +57,21 @@ public abstract class RecyclerViewHelper {
             marginRight = r;
             marginTop = t;
             marginBottom = b;
+            return this;
+        }
+
+        public InsetDividerItemDecoration setHeaderDividersEnabled(boolean enabled) {
+            mHeaderDividersEnabled = enabled;
+            return this;
+        }
+
+        public InsetDividerItemDecoration setFooterDividersEnabled(boolean enabled) {
+            mFooterDividersEnabled = enabled;
+            return this;
+        }
+
+        public InsetDividerItemDecoration setLastItemDividerEnabled(boolean enabled) {
+            mLastItemDividerEnabled = enabled;
             return this;
         }
 
@@ -71,6 +90,7 @@ public abstract class RecyclerViewHelper {
             mDivider = drawable;
         }
 
+
         @Override
         public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
             if (parent.getLayoutManager() == null) {
@@ -82,6 +102,7 @@ public abstract class RecyclerViewHelper {
                 drawHorizontal(c, parent);
             }
         }
+
 
         @SuppressLint("NewApi")
         private void drawVertical(Canvas canvas, RecyclerView parent) {
@@ -101,6 +122,10 @@ public abstract class RecyclerViewHelper {
             final int childCount = parent.getChildCount();
             for (int i = 0; i < childCount; i++) {
                 final View child = parent.getChildAt(i);
+                //检查是否显示分割线
+                if (filterDivider(parent, child)) {
+                    continue;
+                }
                 parent.getDecoratedBoundsWithMargins(child, mBounds);
                 final int bottom = mBounds.bottom + Math.round(ViewCompat.getTranslationY(child));
                 final int top = bottom - mDivider.getIntrinsicHeight();
@@ -128,6 +153,10 @@ public abstract class RecyclerViewHelper {
             final int childCount = parent.getChildCount();
             for (int i = 0; i < childCount; i++) {
                 final View child = parent.getChildAt(i);
+                //检查是否显示分割线
+                if (filterDivider(parent, child)) {
+                    continue;
+                }
                 parent.getLayoutManager().getDecoratedBoundsWithMargins(child, mBounds);
                 final int right = mBounds.right + Math.round(ViewCompat.getTranslationX(child));
                 final int left = right - mDivider.getIntrinsicWidth();
@@ -147,8 +176,30 @@ public abstract class RecyclerViewHelper {
             }
         }
 
+        /**
+         * 过滤掉分割线(不显示)
+         */
+        private boolean filterDivider(RecyclerView parent, View child) {
+            if (!mHeaderDividersEnabled || !mFooterDividersEnabled || !mLastItemDividerEnabled) {
+                int position = parent.getChildAdapterPosition(child);
+                if (!mHeaderDividersEnabled) {
+                    if (position == 0) {
+                        return true;
+                    }
+                }
+                if (!mFooterDividersEnabled) {
+                    if (position == parent.getAdapter().getItemCount() - 1) {
+                        return true;
+                    }
+                }
+                if (!mLastItemDividerEnabled) {
+                    if (position == parent.getAdapter().getItemCount() - 2) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
-
-
 
 }
