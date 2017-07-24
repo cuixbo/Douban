@@ -12,11 +12,14 @@ import android.view.ViewGroup;
 
 import com.xbc.douban.R;
 import com.xbc.douban.base.BaseFragment;
-import com.xbc.douban.movie.adapter.MovieAdapter;
 import com.xbc.douban.base.RecyclerViewHelper;
+import com.xbc.douban.movie.adapter.MovieAdapter;
 import com.xbc.douban.movie.contract.HotMovieContract;
 import com.xbc.douban.movie.model.SubjectsBean;
 import com.xbc.douban.movie.presenter.HotMoviePresenter;
+import com.xbc.douban.util.Log;
+import com.xbc.douban.widget.LoadMoreScrollListener;
+import com.xbc.douban.widget.OnLoadMoreListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +36,8 @@ public class HotMovieFragment extends BaseFragment implements HotMovieContract.V
     private List<SubjectsBean> mData = new ArrayList<SubjectsBean>();
     private MovieAdapter mAdapter = new MovieAdapter(mData);
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private LinearLayoutManager mLinearLayoutManager;
+    private LoadMoreScrollListener mLoadMoreScrollListener;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,13 +74,13 @@ public class HotMovieFragment extends BaseFragment implements HotMovieContract.V
         mRecyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view);
         mSwipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_refresh_layout);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(layoutManager);
+        mLinearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mRecyclerView.addItemDecoration(
                 new RecyclerViewHelper
                         .InsetDividerItemDecoration(mContext, DividerItemDecoration.VERTICAL)
                         .setMargin(40, 40, 0, 0)
-                        .setHeaderDividersEnabled(false)
+                        //.setHeaderDividersEnabled(false)
                         .setFooterDividersEnabled(false)
         );
         mRecyclerView.setAdapter(mAdapter);
@@ -83,11 +88,26 @@ public class HotMovieFragment extends BaseFragment implements HotMovieContract.V
     }
 
     private void initListener() {
+
+        //设置滑动监听并关联到Adapter,添加加载更多的回调事件
+        mLoadMoreScrollListener = new LoadMoreScrollListener(mAdapter);
+        mLoadMoreScrollListener.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                //处理加载更多的异步任务
+                Log.log("onLoadMore()");
+                mPresenter.getHotMovies();
+            }
+        });
+
+        mRecyclerView.addOnScrollListener(mLoadMoreScrollListener);
+
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 setRefresh(true);
                 mPresenter.getHotMovies();
+                mLoadMoreScrollListener.onStateChanged(LoadMoreScrollListener.State.STATE_LOADING);
             }
         });
 
@@ -111,4 +131,15 @@ public class HotMovieFragment extends BaseFragment implements HotMovieContract.V
     public void setRefresh(boolean refresh) {
         mSwipeRefreshLayout.setRefreshing(refresh);
     }
+
+    /**
+     * 异步操作后的状态回传,这里是presenter传过来的
+     */
+    @Override
+    public void setLoadMoreState(int state) {
+        mLoadMoreScrollListener.onStateChanged(state);
+    }
+
+
+
 }

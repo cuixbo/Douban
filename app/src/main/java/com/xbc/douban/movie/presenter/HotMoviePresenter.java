@@ -4,6 +4,7 @@ import com.xbc.douban.movie.contract.HotMovieContract;
 import com.xbc.douban.movie.model.MovieModel;
 import com.xbc.douban.movie.model.MovieResponse;
 import com.xbc.douban.util.Log;
+import com.xbc.douban.widget.LoadMoreScrollListener;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,6 +31,11 @@ public class HotMoviePresenter implements HotMovieContract.Presenter {
     }
 
     @Override
+    public void destroy() {
+
+    }
+
+    @Override
     public void getHotMovies() {
         mMovieModel.getHotMovies(new Callback<MovieResponse>() {
             @Override
@@ -37,6 +43,7 @@ public class HotMoviePresenter implements HotMovieContract.Presenter {
                 mHotMovieView.notifyDataSetChanged(response.body().subjects);
                 Log.log("onResponse");
                 mHotMovieView.setRefresh(false);
+                mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_NO_MORE);
             }
 
             @Override

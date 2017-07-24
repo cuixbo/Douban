@@ -15,6 +15,7 @@ public interface HotMovieContract {
     interface View extends IBaseView<Presenter>{
         void notifyDataSetChanged(List<SubjectsBean> subjects);
         void setRefresh(boolean refresh);
+        void setLoadMoreState(int state);
     }
 
     interface Presenter extends IBasePresenter{
