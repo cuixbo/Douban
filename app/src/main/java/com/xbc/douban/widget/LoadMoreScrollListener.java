@@ -7,16 +7,15 @@ import android.support.v7.widget.RecyclerView;
  * Created by xiaobocui on 2017/7/24.
  */
 
-public class LoadMoreScrollListener extends RecyclerView.OnScrollListener implements LoadMoreStateChangedListener{
+public class LoadMoreScrollListener extends RecyclerView.OnScrollListener{
 
     LinearLayoutManager mLinearLayoutManager;
     int totalItemCount;
     int lastVisibleItem;
     int firstVisibleItem;
-    boolean isLoading;
     int mState;
-    LoadMoreStateChangedListener mLoadMoreStateChangedListener;
-    OnLoadMoreListener mOnLoadMoreListener;
+    LoadMoreStateChangedListener mLoadMoreStateChangedListener;//这里应该是Adapter实现了LoadMoreStateChangedListener
+    OnLoadMoreListener mOnLoadMoreListener;//OnLoadMore()触发的回调
 
     public static class State {
         public static final int STATE_DEFAULT = 0;//不显示  初始状态或数量太少
@@ -26,11 +25,8 @@ public class LoadMoreScrollListener extends RecyclerView.OnScrollListener implem
         public static final int STATE_NO_MORE = 4;//没有更多了 显示
     }
 
-    public LoadMoreScrollListener(LoadMoreStateChangedListener listener) {
-        mLoadMoreStateChangedListener = listener;
-    }
-
-    public LoadMoreScrollListener() {
+    public LoadMoreScrollListener(LoadMoreStateChangedListener adapter) {
+        mLoadMoreStateChangedListener = adapter;
     }
 
     public void setOnLoadMoreListener(OnLoadMoreListener listener) {
@@ -57,7 +53,7 @@ public class LoadMoreScrollListener extends RecyclerView.OnScrollListener implem
         totalItemCount = mLinearLayoutManager.getItemCount();
         if (lastVisibleItem == totalItemCount - 1 && firstVisibleItem != 0) {
             //TODO在此处执行自己加载更多数据的异步
-            if (mState== State.STATE_NO_MORE) {
+            if (mState == State.STATE_NO_MORE) {
                 return;
             }
             if (mState != State.STATE_LOADING) {
@@ -69,9 +65,12 @@ public class LoadMoreScrollListener extends RecyclerView.OnScrollListener implem
         }
     }
 
-    @Override
-    public void onStateChanged(int state) {
+    public void setState(int state) {
         this.mState = state;
+    }
+
+    public void onStateChanged(int state) {
+        setState(state);
         if (mLoadMoreStateChangedListener != null) {
             mLoadMoreStateChangedListener.onStateChanged(state);
         }

@@ -21,7 +21,6 @@ import com.xbc.douban.util.Log;
 import com.xbc.douban.widget.LoadMoreScrollListener;
 import com.xbc.douban.widget.OnLoadMoreListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,11 +32,9 @@ public class HotMovieFragment extends BaseFragment implements HotMovieContract.V
     private HotMovieContract.Presenter mPresenter;
 
     private RecyclerView mRecyclerView;
-    private List<SubjectsBean> mData = new ArrayList<SubjectsBean>();
-    private MovieAdapter mAdapter = new MovieAdapter(mData);
+    private MovieAdapter mAdapter = new MovieAdapter();
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private LinearLayoutManager mLinearLayoutManager;
-    private LoadMoreScrollListener mLoadMoreScrollListener;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,26 +85,21 @@ public class HotMovieFragment extends BaseFragment implements HotMovieContract.V
     }
 
     private void initListener() {
-
-        //设置滑动监听并关联到Adapter,添加加载更多的回调事件
-        mLoadMoreScrollListener = new LoadMoreScrollListener(mAdapter);
-        mLoadMoreScrollListener.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                //处理加载更多的异步任务
-                Log.log("onLoadMore()");
-                mPresenter.getHotMovies();
-            }
-        });
-
-        mRecyclerView.addOnScrollListener(mLoadMoreScrollListener);
-
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 setRefresh(true);
                 mPresenter.getHotMovies();
-                mLoadMoreScrollListener.onStateChanged(LoadMoreScrollListener.State.STATE_LOADING);
+                mAdapter.onStateChanged(LoadMoreScrollListener.State.STATE_DEFAULT);
+            }
+        });
+
+        mAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                //处理加载更多的异步任务
+                Log.log("onLoadMore()");
+                mPresenter.getHotMoviesMore();
             }
         });
 
@@ -121,9 +113,13 @@ public class HotMovieFragment extends BaseFragment implements HotMovieContract.V
 
 
     @Override
-    public void notifyDataSetChanged(List<SubjectsBean> subjects) {
-        mData.clear();
-        mData.addAll(subjects);
+    public void notifyDataSetChanged(List<SubjectsBean> subjects, boolean append) {
+        if (append) {
+            mAdapter.getData().addAll(subjects);
+        } else {
+            mAdapter.getData().clear();
+            mAdapter.getData().addAll(subjects);
+        }
         mAdapter.notifyDataSetChanged();
     }
 
@@ -137,9 +133,6 @@ public class HotMovieFragment extends BaseFragment implements HotMovieContract.V
      */
     @Override
     public void setLoadMoreState(int state) {
-        mLoadMoreScrollListener.onStateChanged(state);
+        mAdapter.onStateChanged(state);
     }
-
-
-
 }

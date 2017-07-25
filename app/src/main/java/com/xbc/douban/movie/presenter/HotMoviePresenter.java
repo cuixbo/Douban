@@ -40,16 +40,35 @@ public class HotMoviePresenter implements HotMovieContract.Presenter {
         mMovieModel.getHotMovies(new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-                mHotMovieView.notifyDataSetChanged(response.body().subjects);
                 Log.log("onResponse");
                 mHotMovieView.setRefresh(false);
-                mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_NO_MORE);
+                mHotMovieView.notifyDataSetChanged(response.body().subjects, false);
             }
 
             @Override
             public void onFailure(Call<MovieResponse> call, Throwable t) {
                 Log.log("onFailure:" + t.getLocalizedMessage());
                 mHotMovieView.setRefresh(false);
+            }
+        });
+    }
+
+    @Override
+    public void getHotMoviesMore() {
+        mMovieModel.getHotMovies(new Callback<MovieResponse>() {
+            @Override
+            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
+                Log.log("onResponse");
+//                mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_FAILED);
+//                mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_NO_MORE);
+                mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_SUCCESS);
+                mHotMovieView.notifyDataSetChanged(response.body().subjects, true);
+            }
+
+            @Override
+            public void onFailure(Call<MovieResponse> call, Throwable t) {
+                Log.log("onFailure:" + t.getLocalizedMessage());
+                mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_FAILED);
             }
         });
     }

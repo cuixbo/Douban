@@ -12,13 +12,17 @@ import java.util.List;
 
 public interface HotMovieContract {
 
-    interface View extends IBaseView<Presenter>{
-        void notifyDataSetChanged(List<SubjectsBean> subjects);
+    interface View extends IBaseView<Presenter> {
+        void notifyDataSetChanged(List<SubjectsBean> subjects, boolean append);
+
         void setRefresh(boolean refresh);
+
         void setLoadMoreState(int state);
     }
 
-    interface Presenter extends IBasePresenter{
+    interface Presenter extends IBasePresenter {
         void getHotMovies();
+
+        void getHotMoviesMore();
     }
 }

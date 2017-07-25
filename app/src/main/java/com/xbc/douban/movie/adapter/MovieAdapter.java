@@ -10,63 +10,53 @@ import android.widget.TextView;
 
 import com.xbc.douban.R;
 import com.xbc.douban.api.GlideApp;
-import com.xbc.douban.base.BaseRecyclerViewAdapter;
+import com.xbc.douban.base.BaseLoadMoreRecyclerViewAdapter;
 import com.xbc.douban.base.BaseViewHolder;
 import com.xbc.douban.movie.model.SubjectsBean;
-import com.xbc.douban.widget.LoadMoreScrollListener;
-import com.xbc.douban.widget.LoadMoreStateChangedListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by xiaobocui on 2017/7/17.
  */
 
-public class MovieAdapter extends BaseRecyclerViewAdapter implements LoadMoreStateChangedListener {
-    private static final int TYPE_HEADER = 1;
-    private static final int TYPE_FOOTER = 2;
-    private static final int TYPE_AD = 3;
+public class MovieAdapter extends BaseLoadMoreRecyclerViewAdapter {
+
     private List<SubjectsBean> mData;
 
-    private View mFooterView;
-    private View mHeaderView;
-
-    private boolean hasHeader, hasFooter;
-
-    private int mState = 0;
-
-    public MovieAdapter(@NonNull List<SubjectsBean> mData) {
-        this.mData = mData;
+    public MovieAdapter() {
+        mData = new ArrayList<SubjectsBean>();
         hasFooter = true;
     }
 
+    public List<SubjectsBean> getData() {
+        return mData;
+    }
+
+    public void setData(@NonNull List<SubjectsBean> mData) {
+        this.mData = mData;
+    }
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        super.onCreateViewHolder(parent, viewType);//需要调用super,在supper中对context初始化
         if (viewType == TYPE_HEADER) {
-            mHeaderView = LayoutInflater.from(mContext).inflate(R.layout.item_movie_header, parent, false);
-            return new MovieHeaderViewHolder(mHeaderView);
-        } else if (viewType == TYPE_FOOTER) {
-            mFooterView = LayoutInflater.from(mContext).inflate(R.layout.item_movie_footer, parent, false);
-            return new MovieFooterViewHolder(mFooterView);
+            return new MovieHeaderViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movie_header, parent, false));
         } else if (viewType == TYPE_AD) {
             return new MovieAdvertiseViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movie_advertise, parent, false));
         }
-        return new MovieViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_hot_movie, parent, false));
+        if (viewType == TYPE_NORMAL) {
+            return new MovieViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_hot_movie, parent, false));
+        }
+        return super.onCreateViewHolder(parent, viewType);
     }
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
         if (getItemViewType(position) == TYPE_HEADER) {
             if (holder instanceof MovieHeaderViewHolder) {
                 bindMovieHeaderView(((MovieHeaderViewHolder) holder), position);
-            }
-            return;
-        }
-        if (getItemViewType(position) == TYPE_FOOTER) {
-            if (holder instanceof MovieFooterViewHolder) {
-                bindMovieFooterView(((MovieFooterViewHolder) holder), position);
             }
             return;
         }
@@ -76,33 +66,32 @@ public class MovieAdapter extends BaseRecyclerViewAdapter implements LoadMoreSta
             }
             return;
         }
-        super.onBindViewHolder(holder, position);//需要调用super,在supper中对click listener初始化
-        if (holder instanceof MovieViewHolder) {
-            bindMovieView(((MovieViewHolder) holder), position);
+        if (getItemViewType(position) == TYPE_NORMAL) {
+            super.onBindViewHolder(holder, position);//需要调用super,在supper中对click listener初始化
+            if (holder instanceof MovieViewHolder) {
+                bindMovieView(((MovieViewHolder) holder), position);
+            }
+            return;
         }
     }
 
     @Override
     public int getItemCount() {
-        int extraCount = (hasHeader ? 1 : 0) + (hasFooter ? 1 : 0);
-        if (mData == null) {
-            return 0 + extraCount;
-        }
-        return mData.size() + extraCount;
+        return mData.size() + super.getItemCount();
     }
 
     @Override
     public int getItemViewType(int position) {
-
-        if (hasHeader && position == 0) {
-            return TYPE_HEADER;
-        }
-        if (hasFooter && position == getItemCount() - 1) {
-            return TYPE_FOOTER;
+        int superViewType = super.getItemViewType(position);
+        if (superViewType != 0) {
+            return superViewType;
         }
         if (mData.size() > 0) {
-            if ("悟空传".equals(mData.get(position - (hasHeader ? 1 : 0)).title)) {
+            int dataIndex = position - (hasHeader ? 1 : 0);
+            if ("悟空传".equals(mData.get(dataIndex).title)) {
                 return TYPE_AD;
+            } else {
+                return TYPE_NORMAL;
             }
         }
         return super.getItemViewType(position);
@@ -110,32 +99,6 @@ public class MovieAdapter extends BaseRecyclerViewAdapter implements LoadMoreSta
 
     private void bindMovieHeaderView(MovieHeaderViewHolder holder, int position) {
         holder.tvName.setText("what?this is header");
-    }
-
-    private void bindMovieFooterView(MovieFooterViewHolder holder, int position) {
-        holder.itemView.setVisibility(View.VISIBLE);
-        switch (mState) {
-            case LoadMoreScrollListener.State.STATE_DEFAULT:
-                holder.tvName.setText("DEFAULT");
-                holder.itemView.setVisibility(View.INVISIBLE);
-                break;
-            case LoadMoreScrollListener.State.STATE_LOADING:
-                holder.tvName.setText("loading");
-                break;
-            case LoadMoreScrollListener.State.STATE_FAILED:
-                holder.tvName.setText("failed");
-                break;
-            case LoadMoreScrollListener.State.STATE_SUCCESS:
-                holder.tvName.setText("success");
-                break;
-            case LoadMoreScrollListener.State.STATE_NO_MORE:
-                holder.tvName.setText("no more");
-                break;
-            default:
-                holder.itemView.setVisibility(View.INVISIBLE);
-                holder.tvName.setText("DEFAULT");
-                break;
-        }
     }
 
     private void bindMovieAdvertiseView(MovieAdvertiseViewHolder holder, int position) {
@@ -154,28 +117,11 @@ public class MovieAdapter extends BaseRecyclerViewAdapter implements LoadMoreSta
         holder.tvCollect.setText(itemBean.collect_count + "人看过");
     }
 
-    /**
-     * 加载更多的状态回调
-     */
-    @Override
-    public void onStateChanged(int state) {
-        this.mState = state;
-        notifyDataSetChanged();
-    }
 
     public static class MovieHeaderViewHolder extends BaseViewHolder {
         public TextView tvName;
 
         public MovieHeaderViewHolder(@NonNull View itemView) {
-            super(itemView);
-            this.tvName = (TextView) itemView.findViewById(R.id.tv_name);
-        }
-    }
-
-    public static class MovieFooterViewHolder extends BaseViewHolder {
-        public TextView tvName;
-
-        public MovieFooterViewHolder(@NonNull View itemView) {
             super(itemView);
             this.tvName = (TextView) itemView.findViewById(R.id.tv_name);
         }

@@ -10,13 +10,22 @@ import android.view.ViewGroup;
  */
 
 public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder> {
-
+    protected static final int TYPE_NORMAL = 1;
+    protected static final int TYPE_HEADER = 2;
+    protected static final int TYPE_FOOTER = 3;
+    protected static final int TYPE_AD = 4;
     protected Context mContext;
     protected RecyclerViewHelper.OnRecycleViewItemClickListener mItemClickListener;
+    protected boolean hasHeader, hasFooter;
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        mContext = recyclerView.getContext();
+    }
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        mContext = parent.getContext();
         return null;
     }
 
@@ -34,7 +43,19 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
 
     @Override
     public int getItemCount() {
-        return 0;
+        int extraCount = (hasHeader ? 1 : 0) + (hasFooter ? 1 : 0);
+        return extraCount;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (hasHeader && position == 0) {
+            return TYPE_HEADER;
+        }
+        if (hasFooter && position == getItemCount() - 1) {
+            return TYPE_FOOTER;
+        }
+        return super.getItemViewType(position);
     }
 
     public void setOnItemClickListener(RecyclerViewHelper.OnRecycleViewItemClickListener listener) {
