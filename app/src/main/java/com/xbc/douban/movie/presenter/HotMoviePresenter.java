@@ -37,7 +37,7 @@ public class HotMoviePresenter implements HotMovieContract.Presenter {
 
     @Override
     public void getHotMovies() {
-        mMovieModel.getHotMovies(new Callback<MovieResponse>() {
+        mMovieModel.getHotMovies(0,10,new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                 Log.log("onResponse");
@@ -54,15 +54,17 @@ public class HotMoviePresenter implements HotMovieContract.Presenter {
     }
 
     @Override
-    public void getHotMoviesMore() {
-        mMovieModel.getHotMovies(new Callback<MovieResponse>() {
+    public void getHotMoviesMore(int start) {
+        mMovieModel.getHotMovies(start,10,new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                 Log.log("onResponse");
-//                mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_FAILED);
-//                mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_NO_MORE);
-                mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_SUCCESS);
-                mHotMovieView.notifyDataSetChanged(response.body().subjects, true);
+                if (response.body().subjects==null||response.body().subjects.isEmpty()) {
+                    mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_NO_MORE);
+                }else{
+                    mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_SUCCESS);
+                    mHotMovieView.notifyDataSetChanged(response.body().subjects, true);
+                }
             }
 
             @Override

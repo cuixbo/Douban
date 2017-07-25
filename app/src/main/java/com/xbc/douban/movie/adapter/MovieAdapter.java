@@ -107,13 +107,35 @@ public class MovieAdapter extends BaseLoadMoreRecyclerViewAdapter {
 
     private void bindMovieView(MovieViewHolder holder, int position) {
         SubjectsBean itemBean = mData.get(position - (hasHeader ? 1 : 0));
+        StringBuffer director=new StringBuffer();
+        if (itemBean.directors!=null&&itemBean.directors.size()>0) {
+            for (int i = 0; i < itemBean.directors.size(); i++) {
+                director.append(itemBean.directors.get(i).name);
+                if (i!=itemBean.directors.size()-1) {
+                    director.append(",");
+                }
+            }
+        }
+        StringBuffer cast=new StringBuffer();
+        if (itemBean.casts!=null&&itemBean.casts.size()>0) {
+            for (int i = 0; i < itemBean.casts.size(); i++) {
+                cast.append(itemBean.casts.get(i).name);
+                if (i==2) {
+                    break;
+                }
+                if (i!=itemBean.casts.size()-1) {
+                    cast.append("/");
+                }
+            }
+        }
+
         GlideApp.with(holder.itemView)
                 .load(itemBean.images.large)
                 .into(holder.ivImage);
         holder.tvName.setText(itemBean.title);
         holder.rbStars.setRating((float) (itemBean.rating.average / itemBean.rating.max) * 5);
-        holder.tvCast.setText(itemBean.casts.get(0).name);
-        holder.tvDirector.setText(itemBean.directors.get(0).name);
+        holder.tvDirector.setText("导演:"+director);
+        holder.tvCast.setText("演员:"+cast);
         holder.tvCollect.setText(itemBean.collect_count + "人看过");
     }
 

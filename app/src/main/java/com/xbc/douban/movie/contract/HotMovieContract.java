@@ -23,6 +23,6 @@ public interface HotMovieContract {
     interface Presenter extends IBasePresenter {
         void getHotMovies();
 
-        void getHotMoviesMore();
+        void getHotMoviesMore(int start);
     }
 }

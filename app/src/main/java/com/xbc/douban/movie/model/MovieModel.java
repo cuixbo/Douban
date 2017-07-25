@@ -20,10 +20,10 @@ public class MovieModel extends BaseModel {
 
     }
 
-    public void getHotMovies(Callback<MovieResponse> callback){
+    public void getHotMovies(int start,int count,Callback<MovieResponse> callback){
         RetrofitManager.getInstance()
                 .getMovieService()
-                .getInTheaters()
+                .getInTheaters(start,count)
                 .enqueue(callback);
     }
 

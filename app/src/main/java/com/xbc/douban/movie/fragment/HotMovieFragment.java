@@ -99,7 +99,7 @@ public class HotMovieFragment extends BaseFragment implements HotMovieContract.V
             public void onLoadMore() {
                 //处理加载更多的异步任务
                 Log.log("onLoadMore()");
-                mPresenter.getHotMoviesMore();
+                mPresenter.getHotMoviesMore(mAdapter.getData().size());
             }
         });
 

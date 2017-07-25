@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingBottom="0dp"
-            android:text="热映"
+            android:text=""
             android:textSize="18sp"/>
 
         <RatingBar
@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:numStars="5"
-            android:rating="3"/>
+            android:rating="0"/>
 
         <TextView
             android:id="@+id/tv_director"
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingBottom="0dp"
-            android:text="热映"
+            android:text=""
             android:textSize="12sp"/>
 
         <TextView
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingBottom="0dp"
-            android:text="热映"
+            android:text=""
             android:textSize="12sp"/>
 
         <TextView
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingBottom="0dp"
-            android:text="热映"
+            android:text=""
             android:textSize="14sp"/>
     </LinearLayout>
 </LinearLayout>
