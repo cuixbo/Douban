@@ -63,11 +63,13 @@ public class HotMovieFragment extends BaseFragment implements HotMovieContract.V
         mPresenter.start();
     }
 
-    private void initIntent() {
+    @Override
+    public void initIntent() {
 
     }
 
-    private void initView() {
+    @Override
+    public void initView() {
         mRecyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view);
         mSwipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_refresh_layout);
 
@@ -84,7 +86,8 @@ public class HotMovieFragment extends BaseFragment implements HotMovieContract.V
         mSwipeRefreshLayout.setColorSchemeResources(R.color.color_main);
     }
 
-    private void initListener() {
+    @Override
+    public void initListener() {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

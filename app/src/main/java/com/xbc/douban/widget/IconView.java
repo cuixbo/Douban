@@ -35,4 +35,6 @@ public class IconView extends android.support.v7.widget.AppCompatTextView {
         this.setTypeface(iconfontTypeface);
     }
 
+
+
 }

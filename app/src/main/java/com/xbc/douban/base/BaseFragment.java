@@ -1,11 +1,11 @@
 package com.xbc.douban.base;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +16,7 @@ import android.view.ViewGroup;
  * Created by xiaobocui on 2017/7/13.
  */
 
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment {
     private static final String STATE_SAVE_IS_HIDDEN = "STATE_SAVE_IS_HIDDEN";
     protected Context mContext;
 
@@ -159,5 +159,9 @@ public class BaseFragment extends Fragment {
         }
         Log.e("xbc", prefix);
     }
+
+    public abstract void initIntent();
+    public abstract void initView();
+    public abstract void initListener();
 
 }

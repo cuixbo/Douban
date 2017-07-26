@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-
+    <declare-styleable name="IconTextView" format="string">
+        <attr name="drawableLeft" format="string"/>
+    </declare-styleable>
 </resources>
