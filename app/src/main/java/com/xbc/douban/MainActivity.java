@@ -28,7 +28,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         initView();
         initListener();
-        bottomNavigationBar.selectTab(1);
+        bottomNavigationBar.selectTab(0);
     }
 
     private void initView() {

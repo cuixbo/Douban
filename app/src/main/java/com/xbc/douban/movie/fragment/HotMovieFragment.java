@@ -1,57 +1,44 @@
 package com.xbc.douban.movie.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.xbc.douban.R;
 import com.xbc.douban.base.BaseFragment;
-import com.xbc.douban.base.RecyclerViewHelper;
-import com.xbc.douban.movie.adapter.MovieAdapter;
-import com.xbc.douban.movie.contract.HotMovieContract;
-import com.xbc.douban.movie.model.SubjectsBean;
-import com.xbc.douban.movie.presenter.HotMoviePresenter;
-import com.xbc.douban.util.Log;
-import com.xbc.douban.widget.LoadMoreScrollListener;
-import com.xbc.douban.widget.OnLoadMoreListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by xiaobocui on 2017/7/13.
  */
 
-public class HotMovieFragment extends BaseFragment implements HotMovieContract.View {
+public class HotMovieFragment extends BaseFragment {
 
-    private HotMovieContract.Presenter mPresenter;
 
-    private RecyclerView mRecyclerView;
-    private MovieAdapter mAdapter = new MovieAdapter();
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private LinearLayoutManager mLinearLayoutManager;
+    private TabLayout mTabLayout;
+    private ViewPager mViewPager;
+    private List<Fragment> mFragments = new ArrayList<Fragment>();
+    private String[] mTitles = new String[]{"正在热映", "即将上映"};
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new HotMoviePresenter(this);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
         return inflater.inflate(R.layout.fragment_hot_movie, container, false);
-    }
-
-    @Override
-    public void setPresenter(HotMovieContract.Presenter presenter) {
-        mPresenter = presenter;
     }
 
     @Override
@@ -60,7 +47,6 @@ public class HotMovieFragment extends BaseFragment implements HotMovieContract.V
         initIntent();
         initView();
         initListener();
-        mPresenter.start();
     }
 
     @Override
@@ -70,72 +56,63 @@ public class HotMovieFragment extends BaseFragment implements HotMovieContract.V
 
     @Override
     public void initView() {
-        mRecyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_refresh_layout);
+        mTabLayout = (TabLayout) getView().findViewById(R.id.tab_layout);
+        mViewPager = (ViewPager) getView().findViewById(R.id.view_pager);
 
-        mLinearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mRecyclerView.addItemDecoration(
-                new RecyclerViewHelper
-                        .InsetDividerItemDecoration(mContext, DividerItemDecoration.VERTICAL)
-                        .setMargin(40, 40, 0, 0)
-                        //.setHeaderDividersEnabled(false)
-                        .setFooterDividersEnabled(false)
-        );
-        mRecyclerView.setAdapter(mAdapter);
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.color_main);
+        mFragments.add(new InTheaterMovieFragment());
+        mFragments.add(new ComingSoonMovieFragment());
+        mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return mTitles[position];
+            }
+
+            @Override
+            public Fragment getItem(int position) {
+                return mFragments.get(position);
+            }
+
+            @Override
+            public int getCount() {
+                return mFragments.size();
+            }
+        });
+        mTabLayout.setupWithViewPager(mViewPager);
+        mViewPager.setCurrentItem(0);
+
+        //去除Tab默认的Ripple效果
+        if (mTabLayout.getChildCount() > 0) {
+            ViewGroup tabStrip = ((ViewGroup) mTabLayout.getChildAt(0));
+            if (tabStrip != null && tabStrip.getChildCount() > 0) {
+                for (int i = 0; i < tabStrip.getChildCount(); i++) {
+                    if (tabStrip.getChildAt(i) != null) {
+                        tabStrip.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
+                    }
+                }
+            }
+        }
     }
 
     @Override
     public void initListener() {
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onRefresh() {
-                setRefresh(true);
-                mPresenter.getHotMovies();
-                mAdapter.onStateChanged(LoadMoreScrollListener.State.STATE_DEFAULT);
-            }
-        });
+            public void onTabSelected(TabLayout.Tab tab) {
 
-        mAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                //处理加载更多的异步任务
-                Log.log("onLoadMore()");
-                mPresenter.getHotMoviesMore(mAdapter.getData().size());
             }
-        });
 
-        mAdapter.setOnItemClickListener(new RecyclerViewHelper.OnRecycleViewItemClickListener() {
             @Override
-            public void onItemClick(View item, int position) {
-                log(position + "");
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
     }
 
 
-    @Override
-    public void notifyDataSetChanged(List<SubjectsBean> subjects, boolean append) {
-        if (append) {
-            mAdapter.getData().addAll(subjects);
-        } else {
-            mAdapter.getData().clear();
-            mAdapter.getData().addAll(subjects);
-        }
-        mAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void setRefresh(boolean refresh) {
-        mSwipeRefreshLayout.setRefreshing(refresh);
-    }
-
-    /**
-     * 异步操作后的状态回传,这里是presenter传过来的
-     */
-    @Override
-    public void setLoadMoreState(int state) {
-        mAdapter.onStateChanged(state);
-    }
 }

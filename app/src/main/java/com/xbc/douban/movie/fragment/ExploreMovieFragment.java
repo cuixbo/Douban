@@ -50,7 +50,7 @@ public class ExploreMovieFragment extends BaseFragment {
         mTabLayout= (TabLayout) getView().findViewById(R.id.tab_layout);
         mViewPager= (ViewPager) getView().findViewById(R.id.view_pager);
 
-        mFragments.add(new HotMovieFragment());
+        mFragments.add(new MineFragment());
         mFragments.add(new MineFragment());
         mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
 
@@ -70,7 +70,7 @@ public class ExploreMovieFragment extends BaseFragment {
             }
         });
         mTabLayout.setupWithViewPager(mViewPager);
-        mViewPager.setCurrentItem(1);
+        mViewPager.setCurrentItem(0);
 
         //去除Tab默认的Ripple效果
         if (mTabLayout.getChildCount()>0) {

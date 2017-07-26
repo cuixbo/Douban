@@ -1,6 +1,6 @@
 package com.xbc.douban.movie.presenter;
 
-import com.xbc.douban.movie.contract.HotMovieContract;
+import com.xbc.douban.movie.contract.ComingSoonMovieContract;
 import com.xbc.douban.movie.model.MovieModel;
 import com.xbc.douban.movie.model.MovieResponse;
 import com.xbc.douban.util.Log;
@@ -14,12 +14,12 @@ import retrofit2.Response;
  * Created by xiaobocui on 2017/7/18.
  */
 
-public class HotMoviePresenter implements HotMovieContract.Presenter {
+public class ComingSoonMoviePresenter implements ComingSoonMovieContract.Presenter {
 
-    HotMovieContract.View mHotMovieView;
+    ComingSoonMovieContract.View mHotMovieView;
     MovieModel mMovieModel = MovieModel.getInstance();
 
-    public HotMoviePresenter(HotMovieContract.View mHotMovieView) {
+    public ComingSoonMoviePresenter(ComingSoonMovieContract.View mHotMovieView) {
         this.mHotMovieView = mHotMovieView;
         this.mHotMovieView.setPresenter(this);
     }
@@ -27,7 +27,7 @@ public class HotMoviePresenter implements HotMovieContract.Presenter {
     @Override
     public void start() {
         mHotMovieView.setRefresh(true);
-        getHotMovies();
+        getComingSoonMovies();
     }
 
     @Override
@@ -36,8 +36,8 @@ public class HotMoviePresenter implements HotMovieContract.Presenter {
     }
 
     @Override
-    public void getHotMovies() {
-        mMovieModel.getHotMovies(0,10,new Callback<MovieResponse>() {
+    public void getComingSoonMovies() {
+        mMovieModel.getComingSoonMovies(0,10,new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                 Log.log("onResponse");
@@ -54,8 +54,8 @@ public class HotMoviePresenter implements HotMovieContract.Presenter {
     }
 
     @Override
-    public void getHotMoviesMore(int start) {
-        mMovieModel.getHotMovies(start,10,new Callback<MovieResponse>() {
+    public void getComingSoonMoviesMore(int start) {
+        mMovieModel.getComingSoonMovies(start,10,new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                 Log.log("onResponse");

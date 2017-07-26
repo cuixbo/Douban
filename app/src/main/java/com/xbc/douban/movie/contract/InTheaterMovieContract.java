@@ -10,7 +10,7 @@ import java.util.List;
  * Created by xiaobocui on 2017/7/18.
  */
 
-public interface HotMovieContract {
+public interface InTheaterMovieContract {
 
     interface View extends IBaseView<Presenter> {
         void notifyDataSetChanged(List<SubjectsBean> subjects, boolean append);
@@ -24,5 +24,9 @@ public interface HotMovieContract {
         void getHotMovies();
 
         void getHotMoviesMore(int start);
+
+        void getComingSoonMovies();
+
+        void getComingSoonMoviesMore(int start);
     }
 }

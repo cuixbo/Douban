@@ -15,5 +15,8 @@ public interface MovieService {
     @GET("movie/in_theaters")
     Call<MovieResponse> getInTheaters(@Query("start") int start, @Query("count") int count);
 
+    @GET("movie/coming_soon")
+    Call<MovieResponse> getComingSoon(@Query("start") int start, @Query("count") int count);
+
 
 }

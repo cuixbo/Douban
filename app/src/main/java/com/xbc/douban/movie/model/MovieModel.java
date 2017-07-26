@@ -26,5 +26,11 @@ public class MovieModel extends BaseModel {
                 .getInTheaters(start,count)
                 .enqueue(callback);
     }
+    public void getComingSoonMovies(int start,int count,Callback<MovieResponse> callback){
+        RetrofitManager.getInstance()
+                .getMovieService()
+                .getComingSoon(start,count)
+                .enqueue(callback);
+    }
 
 }
