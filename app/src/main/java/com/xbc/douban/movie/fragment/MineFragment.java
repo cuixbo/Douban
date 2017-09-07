@@ -14,7 +14,6 @@ import com.xbc.douban.base.BaseFragment;
  */
 
 public class MineFragment extends BaseFragment {
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -24,6 +23,7 @@ public class MineFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+//        getActivity().startService()
     }
 
     @Override
@@ -40,4 +40,6 @@ public class MineFragment extends BaseFragment {
     public void initListener() {
 
     }
+
+
 }

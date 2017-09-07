@@ -13,6 +13,7 @@ import com.xbc.douban.movie.fragment.ExploreMovieFragment;
 import com.xbc.douban.movie.fragment.HotMovieFragment;
 import com.xbc.douban.movie.fragment.MineFragment;
 
+
 public class MainActivity extends BaseActivity {
 
     private BottomNavigationBar bottomNavigationBar;
@@ -46,6 +47,7 @@ public class MainActivity extends BaseActivity {
         bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
             @Override
             public void onTabSelected(int position) {
+                //隐藏与显示fragment
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 Fragment fragment = fragmentManager.findFragmentByTag(TAGS[position]);
                 if (fragment == null) {
@@ -67,6 +69,19 @@ public class MainActivity extends BaseActivity {
                     transaction.show(fragment);
                 }
                 transaction.commitAllowingStateLoss();
+
+                //切换事件
+                switch (position) {
+                    case 0:
+
+                        break;
+                    case 1:
+
+                        break;
+                    case 2:
+
+                        break;
+                }
             }
 
             @Override
