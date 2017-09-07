@@ -17,5 +17,6 @@ public class MyIntentService extends IntentService {
     protected void onHandleIntent(@Nullable Intent intent) {
         Log.log("onHandleIntent:"+this.hashCode());
         Log.log("new:"+this.hashCode());
+        Log.log("new2:"+this.hashCode());
     }
 }
