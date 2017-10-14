@@ -75,4 +75,13 @@ public class LoadMoreScrollListener extends RecyclerView.OnScrollListener{
             mLoadMoreStateChangedListener.onStateChanged(state);
         }
     }
+
+    public void loadMore(){
+        if (mState != State.STATE_LOADING) {
+            if (mOnLoadMoreListener != null) {
+                mOnLoadMoreListener.onLoadMore();
+            }
+            onStateChanged(State.STATE_LOADING);
+        }
+    }
 }

@@ -49,6 +49,7 @@ public class BaseLoadMoreRecyclerViewAdapter extends BaseRecyclerViewAdapter imp
 
     private void bindLoadMoreFooterView(LoadMoreFooterViewHolder holder, int position) {
         holder.itemView.setVisibility(View.VISIBLE);
+        holder.tvName.setOnClickListener(null);
         switch (mState) {
             case LoadMoreScrollListener.State.STATE_DEFAULT:
                 holder.tvName.setText("");
@@ -58,7 +59,13 @@ public class BaseLoadMoreRecyclerViewAdapter extends BaseRecyclerViewAdapter imp
                 holder.tvName.setText("正在加载...");
                 break;
             case LoadMoreScrollListener.State.STATE_FAILED:
-                holder.tvName.setText("加载失败,再试一次!");
+                holder.tvName.setText("加载失败,滑动再试一次!");
+                holder.tvName.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mScrollListener.loadMore();
+                    }
+                });
                 break;
             case LoadMoreScrollListener.State.STATE_SUCCESS:
                 holder.tvName.setText("加载成功");
