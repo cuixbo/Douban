@@ -5,8 +5,6 @@ package com.xbc.douban.base;
  */
 
 public class BaseResponse {
-    public int count;
-    public int start;
-    public int total;
-    public String title;
+    public int code;
+    public String msg;
 }

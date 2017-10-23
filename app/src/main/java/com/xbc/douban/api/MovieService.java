@@ -3,7 +3,10 @@ package com.xbc.douban.api;
 import com.xbc.douban.movie.model.MovieResponse;
 
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
@@ -12,8 +15,9 @@ import retrofit2.http.Query;
 
 public interface MovieService {
 
-    @GET("movie/in_theaters")
-    Call<MovieResponse> getInTheaters(@Query("start") int start, @Query("count") int count);
+    @FormUrlEncoded
+    @POST("movie/in_theaters")
+    Call<MovieResponse> getInTheaters(@Field("start") int start, @Field("count") int count);
 
     @GET("movie/coming_soon")
     Call<MovieResponse> getComingSoon(@Query("start") int start, @Query("count") int count);
