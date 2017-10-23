@@ -1,4 +1,4 @@
-package com.xbc.douban.base;
+package com.xbc.douban.widget.loadmore;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,14 +9,10 @@ import android.view.ViewGroup;
  * Created by xiaobocui on 2017/7/19.
  */
 
-public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder> {
-    protected static final int TYPE_NORMAL = 1;
-    protected static final int TYPE_HEADER = 2;
-    protected static final int TYPE_FOOTER = 3;
-    protected static final int TYPE_AD = 4;
+public class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerViewHolder> {
+
     protected Context mContext;
     protected RecyclerViewHelper.OnRecycleViewItemClickListener mItemClickListener;
-    protected boolean hasHeader, hasFooter;
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
@@ -25,12 +21,12 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
     }
 
     @Override
-    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return null;
     }
 
     @Override
-    public void onBindViewHolder(BaseViewHolder holder, final int position) {
+    public void onBindViewHolder(BaseRecyclerViewHolder holder, final int position) {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,18 +39,11 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
 
     @Override
     public int getItemCount() {
-        int extraCount = (hasHeader ? 1 : 0) + (hasFooter ? 1 : 0);
-        return extraCount;
+        return 0;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (hasHeader && position == 0) {
-            return TYPE_HEADER;
-        }
-        if (hasFooter && position == getItemCount() - 1) {
-            return TYPE_FOOTER;
-        }
         return super.getItemViewType(position);
     }
 

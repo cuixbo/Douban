@@ -12,14 +12,14 @@ import android.view.ViewGroup;
 
 import com.xbc.douban.R;
 import com.xbc.douban.base.BaseFragment;
-import com.xbc.douban.base.RecyclerViewHelper;
+import com.xbc.douban.widget.loadmore.RecyclerViewHelper;
 import com.xbc.douban.movie.adapter.MovieAdapter;
 import com.xbc.douban.movie.contract.ComingSoonMovieContract;
 import com.xbc.douban.movie.model.SubjectsBean;
 import com.xbc.douban.movie.presenter.ComingSoonMoviePresenter;
 import com.xbc.douban.util.Log;
-import com.xbc.douban.widget.LoadMoreScrollListener;
-import com.xbc.douban.widget.OnLoadMoreListener;
+import com.xbc.douban.widget.loadmore.LoadMoreScrollListener;
+import com.xbc.douban.widget.loadmore.OnLoadMoreListener;
 
 import java.util.List;
 

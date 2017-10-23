@@ -1,4 +1,4 @@
-package com.xbc.douban.widget;
+package com.xbc.douban.widget.loadmore;
 
 /**
  * 加载更多的事件回调

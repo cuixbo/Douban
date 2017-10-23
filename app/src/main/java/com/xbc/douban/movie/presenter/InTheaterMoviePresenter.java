@@ -4,7 +4,7 @@ import com.xbc.douban.movie.contract.InTheaterMovieContract;
 import com.xbc.douban.movie.model.MovieModel;
 import com.xbc.douban.movie.model.MovieResponse;
 import com.xbc.douban.util.Log;
-import com.xbc.douban.widget.LoadMoreScrollListener;
+import com.xbc.douban.widget.loadmore.LoadMoreScrollListener;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,7 +34,6 @@ public class InTheaterMoviePresenter implements InTheaterMovieContract.Presenter
     public void destroy() {
 
     }
-
     @Override
     public void getHotMovies() {
         mMovieModel.getHotMovies(0,10,new Callback<MovieResponse>() {

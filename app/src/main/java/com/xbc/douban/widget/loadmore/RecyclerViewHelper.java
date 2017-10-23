@@ -1,4 +1,4 @@
-package com.xbc.douban.base;
+package com.xbc.douban.widget.loadmore;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

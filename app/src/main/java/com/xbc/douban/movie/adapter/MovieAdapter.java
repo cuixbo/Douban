@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import com.xbc.douban.R;
 import com.xbc.douban.api.GlideApp;
-import com.xbc.douban.base.BaseLoadMoreRecyclerViewAdapter;
-import com.xbc.douban.base.BaseViewHolder;
+import com.xbc.douban.widget.loadmore.BaseRecyclerViewHolder;
+import com.xbc.douban.widget.loadmore.LoadMoreRecyclerAdapter;
 import com.xbc.douban.movie.model.SubjectsBean;
 
 import java.util.ArrayList;
@@ -21,13 +21,12 @@ import java.util.List;
  * Created by xiaobocui on 2017/7/17.
  */
 
-public class MovieAdapter extends BaseLoadMoreRecyclerViewAdapter {
+public class MovieAdapter extends LoadMoreRecyclerAdapter<MovieAdapter.MovieViewHolder> {
 
     private List<SubjectsBean> mData;
 
     public MovieAdapter() {
         mData = new ArrayList<SubjectsBean>();
-        hasFooter = true;
     }
 
     public List<SubjectsBean> getData() {
@@ -38,64 +37,62 @@ public class MovieAdapter extends BaseLoadMoreRecyclerViewAdapter {
         this.mData = mData;
     }
 
+//    @Override
+//    public BaseRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+////        if (viewType == TYPE_HEADER) {
+////            return new MovieHeaderViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movie_header, parent, false));
+////        } else if (viewType == TYPE_AD) {
+////            return new MovieAdvertiseViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movie_advertise, parent, false));
+////        }
+//        if (viewType == TYPE_NORMAL) {
+//            return new MovieViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_hot_movie, parent, false));
+//        }
+//        return super.onCreateViewHolder(parent, viewType);
+//    }
+//
+//    @Override
+//    public void onBindViewHolder(BaseRecyclerViewHolder holder, int position) {
+//        super.onBindViewHolder(holder, position);
+////        if (getItemViewType(position) == TYPE_HEADER) {
+////            if (holder instanceof MovieHeaderViewHolder) {
+////                bindMovieHeaderView(((MovieHeaderViewHolder) holder), position);
+////            }
+////            return;
+////        }
+////        if (getItemViewType(position) == TYPE_AD) {
+////            if (holder instanceof MovieAdvertiseViewHolder) {
+////                bindMovieAdvertiseView(((MovieAdvertiseViewHolder) holder), position);
+////            }
+////            return;
+////        }
+//        if (getItemViewType(position) == TYPE_NORMAL) {
+//           // super.onBindViewHolder(holder, position);//需要调用super,在supper中对click listener初始化
+//            if (holder instanceof MovieViewHolder) {
+//                bindMovieView(((MovieViewHolder) holder), position);
+//            }
+//            return;
+//        }
+//    }
+
+
+
     @Override
-    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_HEADER) {
-            return new MovieHeaderViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movie_header, parent, false));
-        } else if (viewType == TYPE_AD) {
-            return new MovieAdvertiseViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movie_advertise, parent, false));
-        }
-        if (viewType == TYPE_NORMAL) {
-            return new MovieViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_hot_movie, parent, false));
-        }
-        return super.onCreateViewHolder(parent, viewType);
+    public MovieViewHolder onCreateViewHolderNormal(ViewGroup parent) {
+        View mView = LayoutInflater.from(mContext).inflate(R.layout.item_hot_movie, parent, false);
+        return new MovieViewHolder(mView);
     }
 
     @Override
-    public void onBindViewHolder(BaseViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
-        if (getItemViewType(position) == TYPE_HEADER) {
-            if (holder instanceof MovieHeaderViewHolder) {
-                bindMovieHeaderView(((MovieHeaderViewHolder) holder), position);
-            }
-            return;
-        }
-        if (getItemViewType(position) == TYPE_AD) {
-            if (holder instanceof MovieAdvertiseViewHolder) {
-                bindMovieAdvertiseView(((MovieAdvertiseViewHolder) holder), position);
-            }
-            return;
-        }
-        if (getItemViewType(position) == TYPE_NORMAL) {
-            super.onBindViewHolder(holder, position);//需要调用super,在supper中对click listener初始化
-            if (holder instanceof MovieViewHolder) {
-                bindMovieView(((MovieViewHolder) holder), position);
-            }
-            return;
-        }
+    public void onBindViewHolderNormal(MovieViewHolder holder, int position) {
+       // super.onBindViewHolderNormal(holder, position);
+        bindMovieView(holder,position);
     }
 
     @Override
-    public int getItemCount() {
-        return mData.size() + super.getItemCount();
+    public int getItemCountNormal() {
+        return mData.size();
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        int superViewType = super.getItemViewType(position);
-        if (superViewType != 0) {
-            return superViewType;
-        }
-        if (mData.size() > 0) {
-            int dataIndex = position - (hasHeader ? 1 : 0);
-            if ("悟空传".equals(mData.get(dataIndex).title)) {
-                return TYPE_AD;
-            } else {
-                return TYPE_NORMAL;
-            }
-        }
-        return super.getItemViewType(position);
-    }
 
     private void bindMovieHeaderView(MovieHeaderViewHolder holder, int position) {
         holder.tvName.setText("what?this is header");
@@ -106,7 +103,7 @@ public class MovieAdapter extends BaseLoadMoreRecyclerViewAdapter {
     }
 
     private void bindMovieView(MovieViewHolder holder, int position) {
-        SubjectsBean itemBean = mData.get(position - (hasHeader ? 1 : 0));
+        SubjectsBean itemBean = mData.get(position);
         StringBuffer director=new StringBuffer();
         if (itemBean.directors!=null&&itemBean.directors.size()>0) {
             for (int i = 0; i < itemBean.directors.size(); i++) {
@@ -140,7 +137,7 @@ public class MovieAdapter extends BaseLoadMoreRecyclerViewAdapter {
     }
 
 
-    public static class MovieHeaderViewHolder extends BaseViewHolder {
+    public static class MovieHeaderViewHolder extends BaseRecyclerViewHolder {
         public TextView tvName;
 
         public MovieHeaderViewHolder(@NonNull View itemView) {
@@ -149,7 +146,7 @@ public class MovieAdapter extends BaseLoadMoreRecyclerViewAdapter {
         }
     }
 
-    public static class MovieAdvertiseViewHolder extends BaseViewHolder {
+    public static class MovieAdvertiseViewHolder extends BaseRecyclerViewHolder {
         public TextView tvName;
         public ImageView ivImage;
 
@@ -160,7 +157,7 @@ public class MovieAdapter extends BaseLoadMoreRecyclerViewAdapter {
         }
     }
 
-    public static class MovieViewHolder extends BaseViewHolder {
+    public static class MovieViewHolder extends BaseRecyclerViewHolder {
         public ImageView ivImage;
         public TextView tvName;
         public RatingBar rbStars;

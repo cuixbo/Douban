@@ -4,7 +4,7 @@ import com.xbc.douban.movie.contract.ComingSoonMovieContract;
 import com.xbc.douban.movie.model.MovieModel;
 import com.xbc.douban.movie.model.MovieResponse;
 import com.xbc.douban.util.Log;
-import com.xbc.douban.widget.LoadMoreScrollListener;
+import com.xbc.douban.widget.loadmore.LoadMoreScrollListener;
 
 import retrofit2.Call;
 import retrofit2.Callback;

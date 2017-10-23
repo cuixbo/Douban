@@ -1,0 +1,39 @@
+package com.xbc.douban.widget.loadmore;
+
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
+/**
+ * Created by xiaobocui on 2017/7/19.
+ */
+
+public class BaseRecyclerViewHolder extends RecyclerView.ViewHolder {
+    public View itemView;
+
+    public BaseRecyclerViewHolder(View itemView) {
+        super(itemView);
+        this.itemView = itemView;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends View> T get(int id) {
+        return (T) itemView.findViewById(id);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T extends View> T get(View view, int id) {
+        return (T) view.findViewById(id);
+    }
+
+    public View getContainer() {
+        return itemView;
+    }
+
+    public Context getContext() {
+        if (null != itemView) {
+            return itemView.getContext();
+        }
+        return null;
+    }
+}

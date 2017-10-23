@@ -1,4 +1,4 @@
-package com.xbc.douban.widget;
+package com.xbc.douban.widget.loadmore;
 
 /**
  * 回调"加载更多"的状态
