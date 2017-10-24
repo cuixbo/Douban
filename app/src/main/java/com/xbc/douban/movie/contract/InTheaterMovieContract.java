@@ -24,9 +24,5 @@ public interface InTheaterMovieContract {
         void getHotMovies();
 
         void getHotMoviesMore(int start);
-
-        void getComingSoonMovies();
-
-        void getComingSoonMoviesMore(int start);
     }
 }

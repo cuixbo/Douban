@@ -74,44 +74,4 @@ public class InTheaterMoviePresenter implements InTheaterMovieContract.Presenter
         });
     }
 
-
-    @Override
-    public void getComingSoonMovies() {
-        mMovieModel.getComingSoonMovies(0,10,new Callback<MovieResponse>() {
-            @Override
-            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-                Log.log("onResponse");
-                mHotMovieView.setRefresh(false);
-                mHotMovieView.notifyDataSetChanged(response.body().subjects, false);
-            }
-
-            @Override
-            public void onFailure(Call<MovieResponse> call, Throwable t) {
-                Log.log("onFailure:" + t.getLocalizedMessage());
-                mHotMovieView.setRefresh(false);
-            }
-        });
-    }
-
-    @Override
-    public void getComingSoonMoviesMore(int start) {
-        mMovieModel.getComingSoonMovies(start,10,new Callback<MovieResponse>() {
-            @Override
-            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-                Log.log("onResponse");
-                if (response.body().subjects==null||response.body().subjects.isEmpty()) {
-                    mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_NO_MORE);
-                }else{
-                    mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_SUCCESS);
-                    mHotMovieView.notifyDataSetChanged(response.body().subjects, true);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MovieResponse> call, Throwable t) {
-                Log.log("onFailure:" + t.getLocalizedMessage());
-                mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_FAILED);
-            }
-        });
-    }
 }

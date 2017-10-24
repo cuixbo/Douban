@@ -9,14 +9,13 @@ import android.widget.TextView;
 
 import com.xbc.douban.R;
 
+
 /**
  * Created by xiaobocui on 2017/7/25.
  */
 
-public class LoadMoreRecyclerAdapter<T extends BaseRecyclerViewHolder> extends BaseRecyclerAdapter implements LoadMoreStateChangedListener {
-    protected static final int TYPE_NORMAL = 0;
+public class LoadMoreRecyclerAdapter<T extends BaseRecyclerViewHolder> extends BaseRecyclerAdapter<T> implements LoadMoreStateChangedListener {
     protected static final int TYPE_FOOTER = 10;
-    protected static final int TYPE_EMPTY = 20;
     protected int mState = 0;
     protected LoadMoreScrollListener mScrollListener = new LoadMoreScrollListener(this);
 
@@ -30,12 +29,8 @@ public class LoadMoreRecyclerAdapter<T extends BaseRecyclerViewHolder> extends B
     public final BaseRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_FOOTER) {
             View mFooterView = LayoutInflater.from(mContext).inflate(R.layout.item_movie_footer, parent, false);
+            mFooterView.setVisibility(View.GONE);
             return new LoadMoreViewHolder(mFooterView);
-        } else if (viewType == TYPE_NORMAL) {
-            return onCreateViewHolderNormal(parent);
-        }else if (viewType == TYPE_EMPTY) {
-            View mFooterView = LayoutInflater.from(mContext).inflate(R.layout.layout_empty, parent, false);
-            return new EmptyViewHolder(mFooterView);
         }
         return super.onCreateViewHolder(parent, viewType);
     }
@@ -48,11 +43,16 @@ public class LoadMoreRecyclerAdapter<T extends BaseRecyclerViewHolder> extends B
                 bindLoadMoreFooterView(((LoadMoreViewHolder) holder), position);
             }
             return;
-        } else if (getItemViewType(position) == TYPE_NORMAL) {
-            onBindViewHolderNormal((T) holder, position);
-        }else if (getItemViewType(position) == TYPE_EMPTY) {
-            bindEmptyView((EmptyViewHolder) holder, position);
         }
+    }
+
+    public T onCreateViewHolderNormal(ViewGroup parent) {
+        return null;
+    }
+
+    @Override
+    public void onBindViewHolderNormal(T holder, int position) {
+
     }
 
     @Override
@@ -60,30 +60,20 @@ public class LoadMoreRecyclerAdapter<T extends BaseRecyclerViewHolder> extends B
         return getItemCountNormal() + 1;
     }
 
-    public T onCreateViewHolderNormal(ViewGroup parent) {
-        return null;
-    }
-
-    public void onBindViewHolderNormal(T holder, int position) {
-
-    }
-
     public int getItemCountNormal() {
         return 0;
     }
 
-
     @Override
     public final int getItemViewType(int position) {
-        if (getItemCountNormal()==0) {
-            return TYPE_EMPTY;
+        if (getItemCountNormal() == 0) {
+            return TYPE_EMPTY;//空页面
         }
         if (position == getItemCount() - 1) {
             return TYPE_FOOTER;
         } else {
             return TYPE_NORMAL;
         }
-        //return super.getItemViewType(position);
     }
 
     private void bindLoadMoreFooterView(LoadMoreViewHolder holder, int position) {
@@ -123,10 +113,6 @@ public class LoadMoreRecyclerAdapter<T extends BaseRecyclerViewHolder> extends B
         }
     }
 
-    private void bindEmptyView(EmptyViewHolder holder, int position) {
-       // holder.tvEmpty.setOnClickListener(null);
-    }
-
     public void setOnLoadMoreListener(OnLoadMoreListener listener) {
         mScrollListener.setOnLoadMoreListener(listener);
     }
@@ -158,12 +144,5 @@ public class LoadMoreRecyclerAdapter<T extends BaseRecyclerViewHolder> extends B
         }
     }
 
-    public static class EmptyViewHolder extends BaseRecyclerViewHolder {
-        public TextView tvEmpty;
 
-        public EmptyViewHolder(@NonNull View itemView) {
-            super(itemView);
-            this.tvEmpty = (TextView) itemView.findViewById(R.id.tv_empty);
-        }
-    }
 }

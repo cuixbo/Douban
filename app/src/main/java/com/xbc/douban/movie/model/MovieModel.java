@@ -1,5 +1,6 @@
 package com.xbc.douban.movie.model;
 
+import com.xbc.douban.api.ApiCallback;
 import com.xbc.douban.api.RetrofitManager;
 import com.xbc.douban.base.BaseModel;
 
@@ -26,6 +27,13 @@ public class MovieModel extends BaseModel {
                 .getInTheaters(start,count)
                 .enqueue(callback);
     }
+    public void getComingSoonMovies2(int start,int count,ApiCallback<MovieResponse> callback){
+        RetrofitManager.getInstance()
+                .getMovieService()
+                .getComingSoon2(start,count)
+                .enqueue(callback);
+    }
+
     public void getComingSoonMovies(int start,int count,Callback<MovieResponse> callback){
         RetrofitManager.getInstance()
                 .getMovieService()

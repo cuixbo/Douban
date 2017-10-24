@@ -5,12 +5,16 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import com.xbc.douban.R;
+
 
 /**
  * Created by xiaobocui on 2017/7/19.
@@ -26,30 +30,32 @@ public abstract class RecyclerViewHelper {
         void onItemLongClick(View item, int position);
     }
 
+    /**
+     * 可以设置间距的分割线
+     */
     public static class InsetDividerItemDecoration extends RecyclerView.ItemDecoration {
 
         public static final int HORIZONTAL = LinearLayout.HORIZONTAL;
         public static final int VERTICAL = LinearLayout.VERTICAL;
 
         private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
-
+        private Context mContext;
         private Drawable mDivider;
-
+        private int mDividerColor= R.color.color_divider;//分割线颜色
         private int marginLeft, marginRight, marginTop, marginBottom;
-
         private int mOrientation;
-
         private final Rect mBounds = new Rect();
-
         private boolean mHeaderDividersEnabled = true;
         private boolean mFooterDividersEnabled = true;
         private boolean mLastItemDividerEnabled = true;//除了footer之外的最后一个item的分割线
 
         public InsetDividerItemDecoration(Context context, int orientation) {
+            mContext=context;
             final TypedArray a = context.obtainStyledAttributes(ATTRS);
             mDivider = a.getDrawable(0);
             a.recycle();
             setOrientation(orientation);
+            setDividerColor(mDividerColor);
         }
 
         public InsetDividerItemDecoration setMargin(int l, int r, int t, int b) {
@@ -90,6 +96,10 @@ public abstract class RecyclerViewHelper {
             mDivider = drawable;
         }
 
+        public void setDividerColor(@NonNull int color) {
+            mDividerColor = color;
+            setDrawable(new ColorDrawable(mContext.getResources().getColor(mDividerColor)));
+        }
 
         @Override
         public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {

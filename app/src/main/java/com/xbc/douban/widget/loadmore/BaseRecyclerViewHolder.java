@@ -2,7 +2,9 @@ package com.xbc.douban.widget.loadmore;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * Created by xiaobocui on 2017/7/19.
@@ -14,6 +16,10 @@ public class BaseRecyclerViewHolder extends RecyclerView.ViewHolder {
     public BaseRecyclerViewHolder(View itemView) {
         super(itemView);
         this.itemView = itemView;
+    }
+
+    public BaseRecyclerViewHolder(Context context, ViewGroup parent, int layoutId) {
+        this(LayoutInflater.from(context).inflate(layoutId, parent, false));
     }
 
     @SuppressWarnings("unchecked")

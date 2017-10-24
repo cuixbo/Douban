@@ -1,5 +1,6 @@
 package com.xbc.douban.movie.presenter;
 
+import com.xbc.douban.api.ApiCallback;
 import com.xbc.douban.movie.contract.ComingSoonMovieContract;
 import com.xbc.douban.movie.model.MovieModel;
 import com.xbc.douban.movie.model.MovieResponse;
@@ -37,31 +38,60 @@ public class ComingSoonMoviePresenter implements ComingSoonMovieContract.Present
 
     @Override
     public void getComingSoonMovies() {
-        mMovieModel.getComingSoonMovies(0,10,new Callback<MovieResponse>() {
+//        mMovieModel.getComingSoonMovies(0,10,new Callback<MovieResponse>() {
+//            @Override
+//            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
+//                Log.log("onResponse");
+//                mHotMovieView.setRefresh(false);
+//                mHotMovieView.notifyDataSetChanged(response.body().subjects, false);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<MovieResponse> call, Throwable t) {
+//                Log.log("onFailure:" + t.getLocalizedMessage());
+//                mHotMovieView.setRefresh(false);
+//            }
+//        });
+        getComingSoonMovies2();
+    }
+
+    @Override
+    public void getComingSoonMovies2() {
+        mMovieModel.getComingSoonMovies2(0, 10, new ApiCallback<MovieResponse>() {
             @Override
-            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-                Log.log("onResponse");
-                mHotMovieView.setRefresh(false);
-                mHotMovieView.notifyDataSetChanged(response.body().subjects, false);
+            public void onSuccess(MovieResponse movieResponse) {
+                Log.log("onSuccess");
+                mHotMovieView.notifyDataSetChanged(movieResponse.subjects, false);
             }
 
             @Override
-            public void onFailure(Call<MovieResponse> call, Throwable t) {
-                Log.log("onFailure:" + t.getLocalizedMessage());
+            public void onFailed(int code, String msg) {
+                Log.log("onFailed");
+            }
+
+            @Override
+            public boolean onError(Throwable t) {
+                Log.log("sub.onError:" + t.getLocalizedMessage());
+                return true;
+            }
+
+            @Override
+            public void onComplete() {
                 mHotMovieView.setRefresh(false);
+                Log.log("onComplete");
             }
         });
     }
 
     @Override
     public void getComingSoonMoviesMore(int start) {
-        mMovieModel.getComingSoonMovies(start,10,new Callback<MovieResponse>() {
+        mMovieModel.getComingSoonMovies(start, 10, new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                 Log.log("onResponse");
-                if (response.body().subjects==null||response.body().subjects.isEmpty()) {
+                if (response.body().subjects == null || response.body().subjects.isEmpty()) {
                     mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_NO_MORE);
-                }else{
+                } else {
                     mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_SUCCESS);
                     mHotMovieView.notifyDataSetChanged(response.body().subjects, true);
                 }

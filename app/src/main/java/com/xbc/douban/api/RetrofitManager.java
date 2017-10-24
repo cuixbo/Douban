@@ -183,6 +183,7 @@ class GsonResponseBodyConverter<T> implements Converter<ResponseBody, T> {
     @Override
     public T convert(ResponseBody value) throws IOException {
         String resp = value.string();
+
         // Log.e("xbc", "convert(ResponseBody):"+resp);
         ResponseData respData = gson.fromJson(resp, ResponseData.class);
         try {
