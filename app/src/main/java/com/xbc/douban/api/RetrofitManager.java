@@ -29,6 +29,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import okio.Buffer;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 /**
  * Created by xiaobocui on 2017/7/17.
@@ -91,6 +92,7 @@ public class RetrofitManager {
                 .baseUrl("https://api.douban.com/v2/")
                 .addConverterFactory(MyConverterFactory.create(new GsonBuilder().create()))
                 //.addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
     }
 
@@ -188,7 +190,7 @@ class GsonResponseBodyConverter<T> implements Converter<ResponseBody, T> {
         ResponseData respData = gson.fromJson(resp, ResponseData.class);
         try {
             if (respData.code != 0) {
-                throw new NullPointerException("hello world");
+                throw new ServerException(respData.code);
             } else {
                 return adapter.fromJson(resp);
             }

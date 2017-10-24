@@ -2,6 +2,7 @@ package com.xbc.douban.api;
 
 import com.xbc.douban.movie.model.MovieResponse;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -25,5 +26,6 @@ public interface MovieService {
     @GET("movie/coming_soon")
     Call<MovieResponse> getComingSoon2(@Query("start") int start, @Query("count") int count);
 
-
+    @GET("movie/coming_soon")
+    Observable<MovieResponse> getComingSoon3(@Query("start") int start, @Query("count") int count);
 }

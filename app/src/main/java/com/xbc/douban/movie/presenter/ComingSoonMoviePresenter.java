@@ -60,25 +60,25 @@ public class ComingSoonMoviePresenter implements ComingSoonMovieContract.Present
         mMovieModel.getComingSoonMovies2(0, 10, new ApiCallback<MovieResponse>() {
             @Override
             public void onSuccess(MovieResponse movieResponse) {
-                Log.log("onSuccess");
+                Log.log("ComingSoon.onSuccess");
                 mHotMovieView.notifyDataSetChanged(movieResponse.subjects, false);
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                Log.log("onFailed");
+                Log.log("ComingSoon.onFailed");
             }
 
             @Override
-            public boolean onError(Throwable t) {
-                Log.log("sub.onError:" + t.getLocalizedMessage());
+            public boolean onError(Throwable t,String msg) {
+                Log.log("ComingSoon.onError:" + msg);
                 return true;
             }
 
             @Override
-            public void onComplete() {
+            public void onCompleted() {
                 mHotMovieView.setRefresh(false);
-                Log.log("onComplete");
+                Log.log("ComingSoon.onComplete");
             }
         });
     }
