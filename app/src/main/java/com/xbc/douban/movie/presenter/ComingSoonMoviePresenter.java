@@ -38,21 +38,18 @@ public class ComingSoonMoviePresenter implements ComingSoonMovieContract.Present
 
     @Override
     public void getComingSoonMovies() {
-//        mMovieModel.getComingSoonMovies(0,10,new Callback<MovieResponse>() {
-//            @Override
-//            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-//                Log.log("onResponse");
-//                mHotMovieView.setRefresh(false);
-//                mHotMovieView.notifyDataSetChanged(response.body().subjects, false);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<MovieResponse> call, Throwable t) {
-//                Log.log("onFailure:" + t.getLocalizedMessage());
-//                mHotMovieView.setRefresh(false);
-//            }
-//        });
-        getComingSoonMovies2();
+        mMovieModel.getComingSoonMovies(0, 10, new Callback<MovieResponse>() {
+            @Override
+            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
+                mHotMovieView.setRefresh(false);
+                mHotMovieView.notifyDataSetChanged(response.body().subjects, false);
+            }
+
+            @Override
+            public void onFailure(Call<MovieResponse> call, Throwable t) {
+                mHotMovieView.setRefresh(false);
+            }
+        });
     }
 
     @Override
@@ -70,7 +67,7 @@ public class ComingSoonMoviePresenter implements ComingSoonMovieContract.Present
             }
 
             @Override
-            public boolean onError(Throwable t,String msg) {
+            public boolean onError(Throwable t, String msg) {
                 Log.log("ComingSoon.onError:" + msg);
                 return true;
             }
@@ -88,7 +85,6 @@ public class ComingSoonMoviePresenter implements ComingSoonMovieContract.Present
         mMovieModel.getComingSoonMovies(start, 10, new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-                Log.log("onResponse");
                 if (response.body().subjects == null || response.body().subjects.isEmpty()) {
                     mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_NO_MORE);
                 } else {
@@ -99,7 +95,6 @@ public class ComingSoonMoviePresenter implements ComingSoonMovieContract.Present
 
             @Override
             public void onFailure(Call<MovieResponse> call, Throwable t) {
-                Log.log("onFailure:" + t.getLocalizedMessage());
                 mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_FAILED);
             }
         });

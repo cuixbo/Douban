@@ -9,6 +9,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonWriter;
+import com.xbc.douban.base.BaseResponse;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -52,39 +53,7 @@ public class RetrofitManager {
                 .readTimeout(60, TimeUnit.SECONDS)
                 .writeTimeout(120, TimeUnit.SECONDS)
                 .addInterceptor(new HttpLoggingInterceptor())
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        Request request = chain.request();
-                        String param = "";
-                        if (request.body() != null) {
-                            Buffer buffer = new Buffer();
-                            request.body().writeTo(buffer);
-                            Charset charset = Charset.forName("utf-8");
-                            MediaType contentType = request.body().contentType();
-                            if (contentType != null) {
-                                charset = contentType.charset(charset);
-                            }
-                            param = buffer.readString(charset);
-                        }
-//                        request = request.newBuilder()
-//                                .addHeader("what", "the fuck")
-//                                .build();
-                        Log.e("request", "url=[" + request.url().toString() + "],param=[" + param + "],header=[" + request.headers().toString().trim() + "]");
-
-                        Response response = chain.proceed(request);
-                        //response.newBuilder().addHeader("Content-Type", "application/json; charset=UTF-8").build();
-                        String resp = response.body().string();
-                        response = response.newBuilder()
-                                .body(ResponseBody.create(response.body().contentType(), resp))
-                                .build();
-//                        if (resp!=null) {
-//                            throw new FileNotFoundException("hello world ~~");
-//                        }
-                        Log.e("response", ">>>url=[" + request.url().toString() + "],header=[" + request.headers().toString().trim() + "]\n>>>" + resp);
-                        return response;
-                    }
-                })
+                .addInterceptor(new MyInterceptor())
                 .build();
         retrofit = new Retrofit.Builder()
                 .client(okHttpClient)
@@ -103,16 +72,44 @@ public class RetrofitManager {
         return movieService;
     }
 
+    private static class MyInterceptor implements Interceptor {
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Request request = chain.request();
+            String param = "";
+            if (request.body() != null) {
+                Buffer buffer = new Buffer();
+                request.body().writeTo(buffer);
+                Charset charset = Charset.forName("utf-8");
+                MediaType contentType = request.body().contentType();
+                if (contentType != null) {
+                    charset = contentType.charset(charset);
+                }
+                param = buffer.readString(charset);
+            }
+//            request = request.newBuilder()
+//                    .addHeader("what", "the fuck")
+//                    .build();
+            Log.e("request", "url=[" + request.url().toString() + "],param=[" + param + "],header=[" + request.headers().toString().trim() + "]");
+
+            Response response = chain.proceed(request);
+//            response.newBuilder().addHeader("Content-Type", "application/json; charset=UTF-8").build();
+            String resp = response.body().string();
+            response = response.newBuilder()
+                    .body(ResponseBody.create(response.body().contentType(), resp))
+                    .build();
+            Log.e("response", ">>>url=[" + request.url().toString() + "],header=[" + request.headers().toString().trim() + "]\n>>>" + resp);
+            return response;
+        }
+    }
+
     private static class MyConverterFactory extends Converter.Factory {
 
         public static MyConverterFactory create() {
             return create(new Gson());
         }
 
-
-        @SuppressWarnings("ConstantConditions") // Guarding public API nullability.
         public static MyConverterFactory create(@NonNull Gson gson) {
-            if (gson == null) throw new NullPointerException("gson == null");
             return new MyConverterFactory(gson);
         }
 
@@ -144,73 +141,64 @@ public class RetrofitManager {
         }
     }
 
+    private static class GsonRequestBodyConverter<T> implements Converter<T, RequestBody> {
+        private static final MediaType MEDIA_TYPE = MediaType.parse("application/json; charset=UTF-8");
+        private static final Charset UTF_8 = Charset.forName("UTF-8");
 
-}
+        private final Gson gson;
+        private final TypeAdapter<T> adapter;
 
-class GsonRequestBodyConverter<T> implements Converter<T, RequestBody> {
-    private static final MediaType MEDIA_TYPE = MediaType.parse("application/json; charset=UTF-8");
-    private static final Charset UTF_8 = Charset.forName("UTF-8");
-
-    private final Gson gson;
-    private final TypeAdapter<T> adapter;
-
-    GsonRequestBodyConverter(Gson gson, TypeAdapter<T> adapter) {
-        this.gson = gson;
-        this.adapter = adapter;
-    }
-
-    @Override
-    public RequestBody convert(T value) throws IOException {
-
-        Buffer buffer = new Buffer();
-        Writer writer = new OutputStreamWriter(buffer.outputStream(), UTF_8);
-        JsonWriter jsonWriter = gson.newJsonWriter(writer);
-        adapter.write(jsonWriter, value);
-        jsonWriter.close();
-        RequestBody requestBody = RequestBody.create(MEDIA_TYPE, buffer.readByteString());
-        Log.e("xbc", buffer.readByteString().toString());
-        return requestBody;
-    }
-}
-
-class GsonResponseBodyConverter<T> implements Converter<ResponseBody, T> {
-    private final Gson gson;
-    private final TypeAdapter<T> adapter;
-
-    GsonResponseBodyConverter(Gson gson, TypeAdapter<T> adapter) {
-        this.gson = gson;
-        this.adapter = adapter;
-    }
-
-    @Override
-    public T convert(ResponseBody value) throws IOException {
-        String resp = value.string();
-
-        // Log.e("xbc", "convert(ResponseBody):"+resp);
-        ResponseData respData = gson.fromJson(resp, ResponseData.class);
-        try {
-            if (respData.code != 0) {
-                throw new ServerException(respData.code);
-            } else {
-                return adapter.fromJson(resp);
-            }
-        } finally {
-            value.close();
+        GsonRequestBodyConverter(Gson gson, TypeAdapter<T> adapter) {
+            this.gson = gson;
+            this.adapter = adapter;
         }
-//        JsonReader jsonReader = gson.newJsonReader(value.charStream());
-//        try {
-//            return adapter.read(jsonReader);
-//        } finally {
-//            value.close();
-//        }
+
+        @Override
+        public RequestBody convert(T value) throws IOException {
+            Buffer buffer = new Buffer();
+            Writer writer = new OutputStreamWriter(buffer.outputStream(), UTF_8);
+            JsonWriter jsonWriter = gson.newJsonWriter(writer);
+            adapter.write(jsonWriter, value);
+            jsonWriter.close();
+            RequestBody requestBody = RequestBody.create(MEDIA_TYPE, buffer.readByteString());
+            return requestBody;
+        }
+    }
+
+    private static class GsonResponseBodyConverter<T> implements Converter<ResponseBody, T> {
+        private final Gson gson;
+        private final TypeAdapter<T> adapter;
+
+        GsonResponseBodyConverter(Gson gson, TypeAdapter<T> adapter) {
+            this.gson = gson;
+            this.adapter = adapter;
+        }
+
+        @Override
+        public T convert(ResponseBody value) throws IOException {
+            String resp = value.string();
+            // Log.e("xbc", "convert(ResponseBody):"+resp);
+            BaseResponse respData = gson.fromJson(resp, BaseResponse.class);
+            try {
+                if (respData.code != 0) {
+                    throw new ServerException(respData.code);
+                } else {
+                    return adapter.fromJson(resp);
+                }
+            } finally {
+                value.close();
+            }
+//            JsonReader jsonReader = gson.newJsonReader(value.charStream());
+//            try {
+//                return adapter.read(jsonReader);
+//            } finally {
+//                value.close();
+//            }
+        }
     }
 }
 
-class ResponseData<T> {
-    public int code;
-    public String msg;
-    public T data;
-}
+
 
 
 

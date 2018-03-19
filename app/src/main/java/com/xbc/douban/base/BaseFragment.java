@@ -115,7 +115,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        log();
+        log(this.hashCode()+"");
     }
 
     @Override
@@ -150,7 +150,7 @@ public abstract class BaseFragment extends Fragment {
 
     public void log() {
         if (System.currentTimeMillis()!=0) {
-            return;
+            //return;
         }
         StackTraceElement[] elements = Thread.currentThread().getStackTrace();
         String prefix = "";

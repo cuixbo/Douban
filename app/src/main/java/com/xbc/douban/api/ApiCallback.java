@@ -28,7 +28,6 @@ public abstract class ApiCallback<T> extends ProxyCallback<T> {
         } else {
             boolean handleError = onError(t, t.getLocalizedMessage());
             if (handleError) {
-                //Log.e("onError:", e.message);
                 ToastUtil.show(e.message);
             }
         }

@@ -40,9 +40,8 @@ public class MovieModel extends BaseModel {
     public void getComingSoonMovies2(int start, int count, ApiCallback<MovieResponse> callback) {
         RetrofitManager.getInstance()
                 .getMovieService()
-                .getComingSoon2(start, count)
+                .getComingSoon(start, count)
                 .enqueue(callback);
-        getComingSoonMovies3(start, count, callback);
     }
 
     public void getComingSoonMovies3(int start, int count, final ApiCallback<MovieResponse> callback) {

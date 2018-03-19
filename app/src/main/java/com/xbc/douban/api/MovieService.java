@@ -24,8 +24,5 @@ public interface MovieService {
     Call<MovieResponse> getComingSoon(@Query("start") int start, @Query("count") int count);
 
     @GET("movie/coming_soon")
-    Call<MovieResponse> getComingSoon2(@Query("start") int start, @Query("count") int count);
-
-    @GET("movie/coming_soon")
     Observable<MovieResponse> getComingSoon3(@Query("start") int start, @Query("count") int count);
 }
