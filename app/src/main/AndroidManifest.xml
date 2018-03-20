@@ -22,6 +22,5 @@
         <activity android:name=".MainActivity"/>
         <activity android:name=".movie.activity.MovieDetailActivity"/>
 
-        <service android:name=".movie.model.MyIntentService"/>
     </application>
 </manifest>
