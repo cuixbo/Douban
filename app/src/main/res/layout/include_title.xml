@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_title"
     android:layout_width="match_parent"
     android:layout_height="56dp"
-    android:background="@color/colorAccent"
+    android:background="#17221b"
     android:orientation="horizontal">
 
     <com.xbc.douban.widget.IconView
@@ -15,10 +16,10 @@
         android:gravity="center"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:text="@string/icon_map"
         android:textColor="@color/white"
         android:textSize="24sp"
-        android:visibility="visible"/>
+        android:visibility="visible"
+        android:text="@string/icon_back"/>
 
     <TextView
         android:id="@+id/tv_title"
@@ -27,9 +28,9 @@
         android:layout_toLeftOf="@+id/btn_right"
         android:layout_toRightOf="@id/btn_left"
         android:gravity="center"
-        android:text="douban"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_large"/>
+        android:textSize="@dimen/text_x_large"
+        tools:text="标题"/>
 
     <com.xbc.douban.widget.IconView
         android:id="@+id/btn_right"
@@ -41,7 +42,7 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:text="@string/icon_category"
-        android:textColor="@color/white"
         android:textSize="24sp"
-        android:visibility="visible"/>
+        android:visibility="invisible"
+        tools:textColor="@color/white"/>
 </RelativeLayout>

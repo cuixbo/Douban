@@ -34,14 +34,18 @@ public class InTheaterMoviePresenter implements InTheaterMovieContract.Presenter
     public void destroy() {
 
     }
+
     @Override
     public void getHotMovies() {
-        mMovieModel.getHotMovies(0,10,new Callback<MovieResponse>() {
+        mMovieModel.getHotMovies(0, 10, new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                 Log.log("onResponse");
+                MovieResponse resp = response.body();
                 mHotMovieView.setRefresh(false);
-                mHotMovieView.notifyDataSetChanged(response.body().subjects, false);
+                if (resp != null) {
+                    mHotMovieView.notifyDataSetChanged(resp.subjects, false);
+                }
             }
 
             @Override
@@ -54,15 +58,20 @@ public class InTheaterMoviePresenter implements InTheaterMovieContract.Presenter
 
     @Override
     public void getHotMoviesMore(int start) {
-        mMovieModel.getHotMovies(start,10,new Callback<MovieResponse>() {
+        mMovieModel.getHotMovies(start, 10, new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                 Log.log("onResponse");
-                if (response.body().subjects==null||response.body().subjects.isEmpty()) {
+                MovieResponse resp = response.body();
+                if (resp != null) {
+                    if (resp.subjects == null || resp.subjects.isEmpty()) {
+                        mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_NO_MORE);
+                    } else {
+                        mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_SUCCESS);
+                        mHotMovieView.notifyDataSetChanged(resp.subjects, true);
+                    }
+                } else {
                     mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_NO_MORE);
-                }else{
-                    mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_SUCCESS);
-                    mHotMovieView.notifyDataSetChanged(response.body().subjects, true);
                 }
             }
 

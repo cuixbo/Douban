@@ -42,7 +42,11 @@ public class ComingSoonMoviePresenter implements ComingSoonMovieContract.Present
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                 mHotMovieView.setRefresh(false);
-                mHotMovieView.notifyDataSetChanged(response.body().subjects, false);
+                MovieResponse resp = response.body();
+                mHotMovieView.setRefresh(false);
+                if (resp != null) {
+                    mHotMovieView.notifyDataSetChanged(resp.subjects, false);
+                }
             }
 
             @Override
@@ -85,11 +89,16 @@ public class ComingSoonMoviePresenter implements ComingSoonMovieContract.Present
         mMovieModel.getComingSoonMovies(start, 10, new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-                if (response.body().subjects == null || response.body().subjects.isEmpty()) {
-                    mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_NO_MORE);
+                MovieResponse resp = response.body();
+                if (resp != null) {
+                    if (resp.subjects == null || resp.subjects.isEmpty()) {
+                        mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_NO_MORE);
+                    } else {
+                        mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_SUCCESS);
+                        mHotMovieView.notifyDataSetChanged(resp.subjects, true);
+                    }
                 } else {
-                    mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_SUCCESS);
-                    mHotMovieView.notifyDataSetChanged(response.body().subjects, true);
+                    mHotMovieView.setLoadMoreState(LoadMoreScrollListener.State.STATE_NO_MORE);
                 }
             }
 

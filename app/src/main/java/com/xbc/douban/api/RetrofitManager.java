@@ -57,7 +57,6 @@ public class RetrofitManager {
                 .build();
         retrofit = new Retrofit.Builder()
                 .client(okHttpClient)
-
                 .baseUrl("https://api.douban.com/v2/")
                 .addConverterFactory(MyConverterFactory.create(new GsonBuilder().create()))
                 //.addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
@@ -177,7 +176,7 @@ public class RetrofitManager {
         @Override
         public T convert(ResponseBody value) throws IOException {
             String resp = value.string();
-            // Log.e("xbc", "convert(ResponseBody):"+resp);
+//            Log.e("xbc", "convert(ResponseBody):" + resp);
             BaseResponse respData = gson.fromJson(resp, BaseResponse.class);
             try {
                 if (respData.code != 0) {

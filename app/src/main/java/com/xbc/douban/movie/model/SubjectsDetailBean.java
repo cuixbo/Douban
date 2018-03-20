@@ -1,14 +1,12 @@
 package com.xbc.douban.movie.model;
 
-import com.xbc.douban.base.BaseResponse;
-
 import java.util.List;
 
 /**
  * Created by xiaobocui on 2017/7/17.
  */
 
-public class SubjectsBean extends BaseResponse {
+public class SubjectsDetailBean extends SubjectsBean {
     public RatingBean rating;
     public String title;
     public int collect_count;
@@ -20,10 +18,7 @@ public class SubjectsBean extends BaseResponse {
     public String id;
     public List<String> genres;
     public List<CastsBean> casts;
-    public List<CastsBean> directors;
-
-    public String summary;
-    public int ratings_count;
+    public List<DirectorsBean> directors;
 
     public static class RatingBean {
         public int max;
@@ -37,13 +32,28 @@ public class SubjectsBean extends BaseResponse {
         public ImagesBean avatars;
         public String name;
         public String id;
-        public String type;
+    }
+
+    public static class DirectorsBean {
+        public String alt;
+        public ImagesBean avatars;
+        public String name;
+        public String id;
     }
 
     public static class ImagesBean {
         public String small;
         public String large;
         public String medium;
+    }
+
+    public static class SimplePhotoBean {
+        public String id;//图片id	str	N/A	Y	Y	-
+        public String alt;//图片展示页url	str	N/A	Y	Y	-
+        public String icon;//图片地址，icon尺寸	str	N/A	Y	Y	-
+        public String image;//图片地址，image尺寸	str	N/A	Y	Y	-
+        public String thumb;//图片地址，thumb尺寸	str	N/A	Y	Y	-
+        public String cover;//图片地址，cover尺寸	str
     }
 
     @Override

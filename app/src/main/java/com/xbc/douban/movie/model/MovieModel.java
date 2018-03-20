@@ -51,4 +51,11 @@ public class MovieModel extends BaseModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback);
     }
+
+    public void getMovieSubject(String id, Callback<SubjectsBean> callback) {
+        RetrofitManager.getInstance()
+                .getMovieService()
+                .getMovieSubject(id)
+                .enqueue(callback);
+    }
 }

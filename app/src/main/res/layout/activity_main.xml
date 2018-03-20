@@ -18,6 +18,7 @@
     <com.ashokvarma.bottomnavigation.BottomNavigationBar
         android:id="@+id/bottom_navigation_bar"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"/>
 </RelativeLayout>

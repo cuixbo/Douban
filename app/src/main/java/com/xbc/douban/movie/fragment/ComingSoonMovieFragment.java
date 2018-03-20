@@ -1,5 +1,6 @@
 package com.xbc.douban.movie.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.xbc.douban.R;
 import com.xbc.douban.base.BaseFragment;
-import com.xbc.douban.widget.loadmore.RecyclerViewHelper;
+import com.xbc.douban.movie.activity.MovieDetailActivity;
 import com.xbc.douban.movie.adapter.MovieAdapter;
 import com.xbc.douban.movie.contract.ComingSoonMovieContract;
 import com.xbc.douban.movie.model.SubjectsBean;
@@ -20,6 +21,7 @@ import com.xbc.douban.movie.presenter.ComingSoonMoviePresenter;
 import com.xbc.douban.util.Log;
 import com.xbc.douban.widget.loadmore.LoadMoreScrollListener;
 import com.xbc.douban.widget.loadmore.OnLoadMoreListener;
+import com.xbc.douban.widget.loadmore.RecyclerViewHelper;
 
 import java.util.List;
 
@@ -111,6 +113,10 @@ public class ComingSoonMovieFragment extends BaseFragment implements ComingSoonM
             @Override
             public void onItemClick(View item, int position) {
                 log(position + "");
+                Intent intent=new Intent(mContext, MovieDetailActivity.class);
+                intent.putExtra(Intent.EXTRA_UID,mAdapter.getData().get(position).id);
+//                intent.putExtra(Intent.EXTRA_TEXT,mAdapter.getData().get(position));
+                startActivity(intent);
             }
         });
     }

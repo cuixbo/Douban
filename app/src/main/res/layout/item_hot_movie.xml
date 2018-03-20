@@ -24,7 +24,7 @@
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="left"
             android:paddingBottom="0dp"
             android:text=""
             android:textSize="18sp"/>
@@ -41,7 +41,7 @@
             android:id="@+id/tv_director"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="left"
             android:paddingBottom="0dp"
             android:text=""
             android:textSize="12sp"/>
@@ -50,7 +50,7 @@
             android:id="@+id/tv_cast"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="left"
             android:paddingBottom="0dp"
             android:text=""
             android:textSize="12sp"/>
