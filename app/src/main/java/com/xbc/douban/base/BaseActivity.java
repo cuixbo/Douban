@@ -7,17 +7,13 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-/**
- * Created by xiaobocui on 2017/7/13.
- */
-
 public class BaseActivity extends AppCompatActivity {
     protected Context mContext;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext=this;
+        mContext = this;
         log();
     }
 
@@ -85,7 +81,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void log() {
-        if (System.currentTimeMillis()!=0) {
+        if (System.currentTimeMillis() != 0) {
             return;
         }
         StackTraceElement[] elements = Thread.currentThread().getStackTrace();

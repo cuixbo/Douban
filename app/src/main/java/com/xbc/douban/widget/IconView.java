@@ -4,11 +4,6 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 
-/**
- * iconfont
- * Created by xiaobocui on 2017/7/19.
- */
-
 public class IconView extends android.support.v7.widget.AppCompatTextView {
 
     private static Typeface iconfontTypeface;
@@ -29,12 +24,11 @@ public class IconView extends android.support.v7.widget.AppCompatTextView {
     }
 
     private void init() {
-        if (iconfontTypeface==null) {
-            iconfontTypeface=Typeface.createFromAsset(getContext().getAssets(),"iconfont.ttf");
+        if (iconfontTypeface == null) {
+            iconfontTypeface = Typeface.createFromAsset(getContext().getAssets(), "iconfont.ttf");
         }
         this.setTypeface(iconfontTypeface);
     }
-
 
 
 }

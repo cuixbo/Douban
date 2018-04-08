@@ -6,10 +6,6 @@ import com.xbc.douban.movie.model.SubjectsBean;
 
 import java.util.List;
 
-/**
- * Created by xiaobocui on 2017/7/18.
- */
-
 public interface InTheaterMovieContract {
 
     interface View extends IBaseView<Presenter> {

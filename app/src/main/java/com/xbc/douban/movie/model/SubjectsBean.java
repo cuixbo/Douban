@@ -4,10 +4,6 @@ import com.xbc.douban.base.BaseResponse;
 
 import java.util.List;
 
-/**
- * Created by xiaobocui on 2017/7/17.
- */
-
 public class SubjectsBean extends BaseResponse {
     public RatingBean rating;
     public String title;

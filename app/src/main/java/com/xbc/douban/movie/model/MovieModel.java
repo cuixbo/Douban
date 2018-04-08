@@ -8,10 +8,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Callback;
 
-/**
- * Created by xiaobocui on 2017/7/21.
- */
-
 public class MovieModel extends BaseModel {
     private static final MovieModel ourInstance = new MovieModel();
 

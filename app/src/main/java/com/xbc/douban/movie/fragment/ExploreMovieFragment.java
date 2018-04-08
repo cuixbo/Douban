@@ -17,16 +17,12 @@ import com.xbc.douban.base.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by xiaobocui on 2017/7/13.
- */
-
 public class ExploreMovieFragment extends BaseFragment {
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
-    private List<Fragment> mFragments=new ArrayList<Fragment>();
-    private String[] mTitles=new String[]{"电视","电影"};
+    private List<Fragment> mFragments = new ArrayList<Fragment>();
+    private String[] mTitles = new String[]{"电视", "电影"};
 
     @Nullable
     @Override
@@ -47,8 +43,8 @@ public class ExploreMovieFragment extends BaseFragment {
 
     @Override
     public void initView() {
-        mTabLayout= (TabLayout) getView().findViewById(R.id.tab_layout);
-        mViewPager= (ViewPager) getView().findViewById(R.id.view_pager);
+        mTabLayout = (TabLayout) getView().findViewById(R.id.tab_layout);
+        mViewPager = (ViewPager) getView().findViewById(R.id.view_pager);
 
         mFragments.add(new MineFragment());
         mFragments.add(new MineFragment());
@@ -73,11 +69,11 @@ public class ExploreMovieFragment extends BaseFragment {
         mViewPager.setCurrentItem(0);
 
         //去除Tab默认的Ripple效果
-        if (mTabLayout.getChildCount()>0) {
-            ViewGroup tabStrip=  ((ViewGroup) mTabLayout.getChildAt(0));
-            if (tabStrip!=null&&tabStrip.getChildCount()>0) {
-                for(int i=0;i<tabStrip.getChildCount();i++){
-                    if (tabStrip.getChildAt(i)!=null) {
+        if (mTabLayout.getChildCount() > 0) {
+            ViewGroup tabStrip = ((ViewGroup) mTabLayout.getChildAt(0));
+            if (tabStrip != null && tabStrip.getChildCount() > 0) {
+                for (int i = 0; i < tabStrip.getChildCount(); i++) {
+                    if (tabStrip.getChildAt(i) != null) {
                         tabStrip.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
                     }
                 }

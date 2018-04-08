@@ -32,10 +32,6 @@ import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
-/**
- * Created by xiaobocui on 2017/7/17.
- */
-
 public class RetrofitManager {
     private static final RetrofitManager ourInstance = new RetrofitManager();
 
@@ -135,7 +131,6 @@ public class RetrofitManager {
         @Nullable
         @Override
         public Converter<?, String> stringConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
-
             return super.stringConverter(type, annotations, retrofit);
         }
     }

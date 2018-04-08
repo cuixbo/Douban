@@ -5,15 +5,12 @@ import android.widget.Toast;
 
 import com.xbc.douban.MainApplication;
 
-/**
- * Created by xiaobocui on 2017/7/25.
- */
-
 public class ToastUtil {
     public static String lastContent;
 
     /**
      * 2 秒内不显示相同toast
+     *
      * @param content
      */
     public static void show(String content) {

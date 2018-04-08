@@ -10,10 +10,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * Created by xiaobocui on 2017/7/18.
- */
-
 public class MovieDetailPresenter implements MovieDetailContract.Presenter {
 
     MovieDetailContract.View mHotMovieView;

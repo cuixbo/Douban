@@ -12,10 +12,6 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-/**
- * Created by xiaobocui on 2017/7/14.
- */
-
 public interface MovieService {
 
     @FormUrlEncoded
@@ -32,5 +28,5 @@ public interface MovieService {
     Call<SubjectsBean> getMovieSubject(@Path("id") String id);
 
     @GET("movie/subject/{id}/comments")
-    Call<SubjectsBean> getMovieComments(@Path("id") String id,@Query("start") int start, @Query("count") int count);
+    Call<SubjectsBean> getMovieComments(@Path("id") String id, @Query("start") int start, @Query("count") int count);
 }

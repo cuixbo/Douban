@@ -26,7 +26,7 @@ public class IconTextView extends RelativeLayout {
         if (a != null) {
             String left = a.getString(R.styleable.IconTextView_drawableLeft);
             Log.log(left);
-            mIconLeft=new IconView(context);
+            mIconLeft = new IconView(context);
             mIconLeft.setText(left);
             addView(mIconLeft);
             //TODO 待完善

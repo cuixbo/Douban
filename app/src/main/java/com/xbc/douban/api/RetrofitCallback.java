@@ -9,7 +9,6 @@ import retrofit2.Response;
 
 /**
  * Retrofit回调,现在可以使用ApiCallback
- * Created by xiaobocui on 2017/10/24.
  */
 @Deprecated
 public abstract class RetrofitCallback<T> implements Callback<T> {

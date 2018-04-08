@@ -9,11 +9,6 @@ import android.widget.TextView;
 
 import com.xbc.douban.R;
 
-
-/**
- * Created by xiaobocui on 2017/7/25.
- */
-
 public class LoadMoreRecyclerAdapter<T extends BaseRecyclerViewHolder> extends BaseRecyclerAdapter<T> implements LoadMoreStateChangedListener {
     protected static final int TYPE_FOOTER = 10;
     protected int mState = 0;

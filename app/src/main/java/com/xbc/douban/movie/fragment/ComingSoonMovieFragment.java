@@ -25,11 +25,6 @@ import com.xbc.douban.widget.loadmore.RecyclerViewHelper;
 
 import java.util.List;
 
-/**
- * 正在热映
- * Created by xiaobocui on 2017/7/13.
- */
-
 public class ComingSoonMovieFragment extends BaseFragment implements ComingSoonMovieContract.View {
 
     private ComingSoonMovieContract.Presenter mPresenter;
@@ -113,8 +108,8 @@ public class ComingSoonMovieFragment extends BaseFragment implements ComingSoonM
             @Override
             public void onItemClick(View item, int position) {
                 log(position + "");
-                Intent intent=new Intent(mContext, MovieDetailActivity.class);
-                intent.putExtra(Intent.EXTRA_UID,mAdapter.getData().get(position).id);
+                Intent intent = new Intent(mContext, MovieDetailActivity.class);
+                intent.putExtra(Intent.EXTRA_UID, mAdapter.getData().get(position).id);
 //                intent.putExtra(Intent.EXTRA_TEXT,mAdapter.getData().get(position));
                 startActivity(intent);
             }

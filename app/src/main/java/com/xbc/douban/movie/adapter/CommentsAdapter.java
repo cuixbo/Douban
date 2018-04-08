@@ -14,10 +14,6 @@ import com.xbc.douban.widget.loadmore.BaseRecyclerViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by xiaobocui on 2017/7/17.
- */
-
 public class CommentsAdapter extends RecyclerView.Adapter<BaseRecyclerViewHolder> {
 
     private List<SubjectsBean> mData;

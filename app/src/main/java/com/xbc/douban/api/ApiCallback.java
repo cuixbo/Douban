@@ -10,7 +10,6 @@ import retrofit2.Response;
 
 /**
  * 实现了Retrofit和RxJava的回调方式
- * Created by xiaobocui on 2017/10/24.
  */
 public abstract class ApiCallback<T> extends ProxyCallback<T> {
 

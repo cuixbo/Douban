@@ -10,11 +10,6 @@ import android.widget.TextView;
 
 import com.xbc.douban.R;
 
-
-/**
- * Created by xiaobocui on 2017/7/19.
- */
-
 public class BaseRecyclerAdapter<T extends BaseRecyclerViewHolder> extends RecyclerView.Adapter<BaseRecyclerViewHolder> {
     protected static final int TYPE_EMPTY = 20;
     protected static final int TYPE_NORMAL = 0;

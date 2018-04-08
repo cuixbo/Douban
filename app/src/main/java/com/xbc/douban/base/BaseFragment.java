@@ -12,10 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * Created by xiaobocui on 2017/7/13.
- */
-
 public abstract class BaseFragment extends Fragment {
     private static final String STATE_SAVE_IS_HIDDEN = "STATE_SAVE_IS_HIDDEN";
     protected Context mContext;
@@ -115,7 +111,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        log(this.hashCode()+"");
+        log(this.hashCode() + "");
     }
 
     @Override
@@ -137,8 +133,8 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void log(String log) {
-        if (System.currentTimeMillis()!=0) {
-           // return;
+        if (System.currentTimeMillis() != 0) {
+            // return;
         }
         StackTraceElement[] elements = Thread.currentThread().getStackTrace();
         String prefix = "";
@@ -149,8 +145,8 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void log() {
-        if (System.currentTimeMillis()!=0) {
-            //return;
+        if (System.currentTimeMillis() != 0) {
+            return;
         }
         StackTraceElement[] elements = Thread.currentThread().getStackTrace();
         String prefix = "";
@@ -161,7 +157,9 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public abstract void initIntent();
+
     public abstract void initView();
+
     public abstract void initListener();
 
 }

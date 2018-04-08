@@ -8,7 +8,6 @@ import io.reactivex.disposables.Disposable;
 
 /**
  * RxJava Observer回调,现在可以使用ApiCallback
- * Created by xiaobocui on 2017/10/24.
  */
 @Deprecated
 public class ApiObserver<T> implements Observer<T> {

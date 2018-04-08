@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import com.xbc.douban.R;
 import com.xbc.douban.base.BaseFragment;
 import com.xbc.douban.movie.activity.MovieDetailActivity;
-import com.xbc.douban.widget.loadmore.RecyclerViewHelper;
 import com.xbc.douban.movie.adapter.MovieAdapter;
 import com.xbc.douban.movie.contract.InTheaterMovieContract;
 import com.xbc.douban.movie.model.SubjectsBean;
@@ -22,13 +21,9 @@ import com.xbc.douban.movie.presenter.InTheaterMoviePresenter;
 import com.xbc.douban.util.Log;
 import com.xbc.douban.widget.loadmore.LoadMoreScrollListener;
 import com.xbc.douban.widget.loadmore.OnLoadMoreListener;
+import com.xbc.douban.widget.loadmore.RecyclerViewHelper;
 
 import java.util.List;
-
-/**
- * 正在热映
- * Created by xiaobocui on 2017/7/13.
- */
 
 public class InTheaterMovieFragment extends BaseFragment implements InTheaterMovieContract.View {
 
@@ -113,8 +108,8 @@ public class InTheaterMovieFragment extends BaseFragment implements InTheaterMov
             @Override
             public void onItemClick(View item, int position) {
                 log(position + "");
-                Intent intent=new Intent(mContext, MovieDetailActivity.class);
-                intent.putExtra(Intent.EXTRA_UID,mAdapter.getData().get(position).id);
+                Intent intent = new Intent(mContext, MovieDetailActivity.class);
+                intent.putExtra(Intent.EXTRA_UID, mAdapter.getData().get(position).id);
 //                intent.putExtra(Intent.EXTRA_TEXT,mAdapter.getData().get(position));
                 startActivity(intent);
             }

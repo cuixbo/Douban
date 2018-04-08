@@ -10,10 +10,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * Created by xiaobocui on 2017/7/18.
- */
-
 public class InTheaterMoviePresenter implements InTheaterMovieContract.Presenter {
 
     InTheaterMovieContract.View mHotMovieView;
@@ -27,7 +23,9 @@ public class InTheaterMoviePresenter implements InTheaterMovieContract.Presenter
     @Override
     public void start() {
         mHotMovieView.setRefresh(true);
+//        for(int i=0;i<100;i++){
         getHotMovies();
+//        }
     }
 
     @Override
@@ -40,7 +38,7 @@ public class InTheaterMoviePresenter implements InTheaterMovieContract.Presenter
         mMovieModel.getHotMovies(0, 10, new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-                Log.log("onResponse");
+                Log.log("onResponse:" + response.code());
                 MovieResponse resp = response.body();
                 mHotMovieView.setRefresh(false);
                 if (resp != null) {

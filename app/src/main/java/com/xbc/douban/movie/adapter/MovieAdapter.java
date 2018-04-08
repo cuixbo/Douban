@@ -10,16 +10,12 @@ import android.widget.TextView;
 
 import com.xbc.douban.R;
 import com.xbc.douban.api.GlideApp;
+import com.xbc.douban.movie.model.SubjectsBean;
 import com.xbc.douban.widget.loadmore.BaseRecyclerViewHolder;
 import com.xbc.douban.widget.loadmore.LoadMoreRecyclerAdapter;
-import com.xbc.douban.movie.model.SubjectsBean;
 
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by xiaobocui on 2017/7/17.
- */
 
 public class MovieAdapter extends LoadMoreRecyclerAdapter<MovieAdapter.MovieViewHolder> {
 
@@ -75,7 +71,6 @@ public class MovieAdapter extends LoadMoreRecyclerAdapter<MovieAdapter.MovieView
 //    }
 
 
-
     @Override
     public MovieViewHolder onCreateViewHolderNormal(ViewGroup parent) {
         View mView = LayoutInflater.from(mContext).inflate(R.layout.item_hot_movie, parent, false);
@@ -84,8 +79,8 @@ public class MovieAdapter extends LoadMoreRecyclerAdapter<MovieAdapter.MovieView
 
     @Override
     public void onBindViewHolderNormal(MovieViewHolder holder, int position) {
-       // super.onBindViewHolderNormal(holder, position);
-        bindMovieView(holder,position);
+        // super.onBindViewHolderNormal(holder, position);
+        bindMovieView(holder, position);
     }
 
     @Override
@@ -104,23 +99,23 @@ public class MovieAdapter extends LoadMoreRecyclerAdapter<MovieAdapter.MovieView
 
     private void bindMovieView(MovieViewHolder holder, int position) {
         SubjectsBean itemBean = mData.get(position);
-        StringBuffer director=new StringBuffer();
-        if (itemBean.directors!=null&&itemBean.directors.size()>0) {
+        StringBuffer director = new StringBuffer();
+        if (itemBean.directors != null && itemBean.directors.size() > 0) {
             for (int i = 0; i < itemBean.directors.size(); i++) {
                 director.append(itemBean.directors.get(i).name);
-                if (i!=itemBean.directors.size()-1) {
+                if (i != itemBean.directors.size() - 1) {
                     director.append(",");
                 }
             }
         }
-        StringBuffer cast=new StringBuffer();
-        if (itemBean.casts!=null&&itemBean.casts.size()>0) {
+        StringBuffer cast = new StringBuffer();
+        if (itemBean.casts != null && itemBean.casts.size() > 0) {
             for (int i = 0; i < itemBean.casts.size(); i++) {
                 cast.append(itemBean.casts.get(i).name);
-                if (i==2) {
+                if (i == 2) {
                     break;
                 }
-                if (i!=itemBean.casts.size()-1) {
+                if (i != itemBean.casts.size() - 1) {
                     cast.append("/");
                 }
             }
@@ -131,8 +126,8 @@ public class MovieAdapter extends LoadMoreRecyclerAdapter<MovieAdapter.MovieView
                 .into(holder.ivImage);
         holder.tvName.setText(itemBean.title);
         holder.rbStars.setRating((float) (itemBean.rating.average / itemBean.rating.max) * 5);
-        holder.tvDirector.setText("导演:"+director);
-        holder.tvCast.setText("演员:"+cast);
+        holder.tvDirector.setText("导演:" + director);
+        holder.tvCast.setText("演员:" + cast);
         holder.tvCollect.setText(itemBean.collect_count + "人看过");
     }
 

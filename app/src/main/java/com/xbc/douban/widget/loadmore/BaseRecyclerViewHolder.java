@@ -6,10 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * Created by xiaobocui on 2017/7/19.
- */
-
 public class BaseRecyclerViewHolder extends RecyclerView.ViewHolder {
     public View itemView;
 

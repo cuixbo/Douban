@@ -3,9 +3,6 @@ package com.xbc.douban.widget.loadmore;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-/**
- * Created by xiaobocui on 2017/7/24.
- */
 public class LoadMoreScrollListener extends RecyclerView.OnScrollListener {
 
     private LinearLayoutManager mLinearLayoutManager;

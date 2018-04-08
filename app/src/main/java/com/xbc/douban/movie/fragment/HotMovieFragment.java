@@ -17,10 +17,6 @@ import com.xbc.douban.base.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by xiaobocui on 2017/7/13.
- */
-
 public class HotMovieFragment extends BaseFragment {
 
 

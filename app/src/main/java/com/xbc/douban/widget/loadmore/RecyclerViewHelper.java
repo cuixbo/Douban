@@ -15,11 +15,6 @@ import android.widget.LinearLayout;
 
 import com.xbc.douban.R;
 
-
-/**
- * Created by xiaobocui on 2017/7/19.
- */
-
 public abstract class RecyclerViewHelper {
 
     public interface OnRecycleViewItemClickListener {
@@ -41,7 +36,7 @@ public abstract class RecyclerViewHelper {
         private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
         private Context mContext;
         private Drawable mDivider;
-        private int mDividerColor= R.color.color_divider;//分割线颜色
+        private int mDividerColor = R.color.color_divider;//分割线颜色
         private int marginLeft, marginRight, marginTop, marginBottom;
         private int mOrientation;
         private final Rect mBounds = new Rect();
@@ -50,7 +45,7 @@ public abstract class RecyclerViewHelper {
         private boolean mLastItemDividerEnabled = true;//除了footer之外的最后一个item的分割线
 
         public InsetDividerItemDecoration(Context context, int orientation) {
-            mContext=context;
+            mContext = context;
             final TypedArray a = context.obtainStyledAttributes(ATTRS);
             mDivider = a.getDrawable(0);
             a.recycle();

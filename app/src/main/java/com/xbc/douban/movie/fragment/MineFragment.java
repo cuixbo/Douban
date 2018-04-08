@@ -9,10 +9,6 @@ import android.view.ViewGroup;
 import com.xbc.douban.R;
 import com.xbc.douban.base.BaseFragment;
 
-/**
- * Created by xiaobocui on 2017/7/13.
- */
-
 public class MineFragment extends BaseFragment {
     @Nullable
     @Override
