@@ -1,11 +1,8 @@
 package com.xbc.douban.movie.model;
 
-import com.xbc.douban.api.ApiCallback;
 import com.xbc.douban.api.RetrofitManager;
 import com.xbc.douban.base.BaseModel;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import retrofit2.Callback;
 
 public class MovieModel extends BaseModel {
@@ -31,21 +28,6 @@ public class MovieModel extends BaseModel {
                 .getMovieService()
                 .getComingSoon(start, count)
                 .enqueue(callback);
-    }
-
-    public void getComingSoonMovies2(int start, int count, ApiCallback<MovieResponse> callback) {
-        RetrofitManager.getInstance()
-                .getMovieService()
-                .getComingSoon(start, count)
-                .enqueue(callback);
-    }
-
-    public void getComingSoonMovies3(int start, int count, final ApiCallback<MovieResponse> callback) {
-        RetrofitManager.getInstance().getMovieService()
-                .getComingSoon3(start, count)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(callback);
     }
 
     public void getMovieSubject(String id, Callback<SubjectsBean> callback) {

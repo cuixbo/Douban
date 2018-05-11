@@ -1,10 +1,8 @@
 package com.xbc.douban.movie.presenter;
 
-import com.xbc.douban.api.ApiCallback;
 import com.xbc.douban.movie.contract.ComingSoonMovieContract;
 import com.xbc.douban.movie.model.MovieModel;
 import com.xbc.douban.movie.model.MovieResponse;
-import com.xbc.douban.util.Log;
 import com.xbc.douban.widget.loadmore.LoadMoreScrollListener;
 
 import retrofit2.Call;
@@ -52,33 +50,6 @@ public class ComingSoonMoviePresenter implements ComingSoonMovieContract.Present
         });
     }
 
-    @Override
-    public void getComingSoonMovies2() {
-        mMovieModel.getComingSoonMovies2(0, 10, new ApiCallback<MovieResponse>() {
-            @Override
-            public void onSuccess(MovieResponse movieResponse) {
-                Log.log("ComingSoon.onSuccess");
-                mHotMovieView.notifyDataSetChanged(movieResponse.subjects, false);
-            }
-
-            @Override
-            public void onFailed(int code, String msg) {
-                Log.log("ComingSoon.onFailed");
-            }
-
-            @Override
-            public boolean onError(Throwable t, String msg) {
-                Log.log("ComingSoon.onError:" + msg);
-                return true;
-            }
-
-            @Override
-            public void onCompleted() {
-                mHotMovieView.setRefresh(false);
-                Log.log("ComingSoon.onComplete");
-            }
-        });
-    }
 
     @Override
     public void getComingSoonMoviesMore(int start) {

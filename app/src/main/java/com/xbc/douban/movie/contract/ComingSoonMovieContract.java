@@ -20,8 +20,6 @@ public interface ComingSoonMovieContract {
 
         void getComingSoonMovies();
 
-        void getComingSoonMovies2();
-
         void getComingSoonMoviesMore(int start);
     }
 }
