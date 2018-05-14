@@ -17,7 +17,7 @@ android {
         douban {
             keyAlias 'douban'
             keyPassword '123456'
-            storeFile file('/Users/xiaobocui/xiaobocui/Develop/gitspace/Douban/douban.jks')
+            storeFile file('../douban.jks')
             storePassword '123456'
         }
     }

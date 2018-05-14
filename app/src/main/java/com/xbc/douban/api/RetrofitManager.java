@@ -10,6 +10,7 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonWriter;
 import com.xbc.douban.base.BaseResponse;
+import com.xbc.douban.movie.MovieService;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -82,13 +83,8 @@ public class RetrofitManager {
                 }
                 param = buffer.readString(charset);
             }
-//            request = request.newBuilder()
-//                    .addHeader("what", "the fuck")
-//                    .build();
             Log.e("request", "url=[" + request.url().toString() + "],param=[" + param + "],header=[" + request.headers().toString().trim() + "]");
-
             Response response = chain.proceed(request);
-//            response.newBuilder().addHeader("Content-Type", "application/json; charset=UTF-8").build();
             String resp = response.body().string();
             response = response.newBuilder()
                     .body(ResponseBody.create(response.body().contentType(), resp))
@@ -171,7 +167,6 @@ public class RetrofitManager {
         @Override
         public T convert(ResponseBody value) throws IOException {
             String resp = value.string();
-//            Log.e("xbc", "convert(ResponseBody):" + resp);
             BaseResponse respData = gson.fromJson(resp, BaseResponse.class);
             try {
                 if (respData.code != 0) {
@@ -182,12 +177,6 @@ public class RetrofitManager {
             } finally {
                 value.close();
             }
-//            JsonReader jsonReader = gson.newJsonReader(value.charStream());
-//            try {
-//                return adapter.read(jsonReader);
-//            } finally {
-//                value.close();
-//            }
         }
     }
 }

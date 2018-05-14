@@ -29,9 +29,7 @@ public class IconTextView extends RelativeLayout {
             mIconLeft = new IconView(context);
             mIconLeft.setText(left);
             addView(mIconLeft);
-            //TODO 待完善
         }
     }
-
 
 }

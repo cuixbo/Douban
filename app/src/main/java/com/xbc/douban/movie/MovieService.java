@@ -1,4 +1,4 @@
-package com.xbc.douban.api;
+package com.xbc.douban.movie;
 
 import com.xbc.douban.movie.model.MovieResponse;
 import com.xbc.douban.movie.model.SubjectsBean;

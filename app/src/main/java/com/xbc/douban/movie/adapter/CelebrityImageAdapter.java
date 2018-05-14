@@ -17,6 +17,9 @@ import com.xbc.douban.widget.loadmore.BaseRecyclerViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 名人图片适配器
+ */
 public class CelebrityImageAdapter extends RecyclerView.Adapter<BaseRecyclerViewHolder> {
 
     private List<CastsBean> mData;

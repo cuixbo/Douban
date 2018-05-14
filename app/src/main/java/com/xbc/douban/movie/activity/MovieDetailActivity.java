@@ -3,7 +3,6 @@ package com.xbc.douban.movie.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -18,7 +17,6 @@ import com.xbc.douban.R;
 import com.xbc.douban.api.GlideApp;
 import com.xbc.douban.base.BaseActivity;
 import com.xbc.douban.movie.adapter.CelebrityImageAdapter;
-import com.xbc.douban.movie.adapter.CommentsAdapter;
 import com.xbc.douban.movie.contract.MovieDetailContract;
 import com.xbc.douban.movie.model.SubjectsBean;
 import com.xbc.douban.movie.presenter.MovieDetailPresenter;
@@ -31,11 +29,8 @@ import java.util.List;
 public class MovieDetailActivity extends BaseActivity implements MovieDetailContract.View {
     private MovieDetailContract.Presenter mPresenter;
 
-    private ViewPager mViewPager;
     private RecyclerView mCelebrityRecyclerView;
-    private LinearLayoutManager mLinearLayoutManager;
     private CelebrityImageAdapter mCelebrityAdapter;
-    private CommentsAdapter mCommentsAdapter;
     private IconView mBtnLeft;
     private TextView mTvTitle;
     private IconView mBtnRight;
@@ -65,7 +60,6 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     }
 
     private void initView() {
-//        mMovieSubject = (SubjectsBean) getIntent().getSerializableExtra(Intent.EXTRA_TEXT);
         mBtnLeft = (IconView) findViewById(R.id.btn_left);
         mTvTitle = (TextView) findViewById(R.id.tv_title);
         mBtnRight = (IconView) findViewById(R.id.btn_right);
@@ -83,11 +77,9 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
         mTvIntro = (TextView) findViewById(R.id.tv_intro);
         mCelebrityRecyclerView = (RecyclerView) findViewById(R.id.celebrity_recycler_view);
 
-        mLinearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
         mCelebrityRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
         mCelebrityAdapter = new CelebrityImageAdapter();
-        mCommentsAdapter = new CommentsAdapter();
 
         mCelebrityRecyclerView.setAdapter(mCelebrityAdapter);
     }

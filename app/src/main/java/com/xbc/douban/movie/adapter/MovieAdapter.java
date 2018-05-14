@@ -33,44 +33,6 @@ public class MovieAdapter extends LoadMoreRecyclerAdapter<MovieAdapter.MovieView
         this.mData = mData;
     }
 
-//    @Override
-//    public BaseRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-////        if (viewType == TYPE_HEADER) {
-////            return new MovieHeaderViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movie_header, parent, false));
-////        } else if (viewType == TYPE_AD) {
-////            return new MovieAdvertiseViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movie_advertise, parent, false));
-////        }
-//        if (viewType == TYPE_NORMAL) {
-//            return new MovieViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_hot_movie, parent, false));
-//        }
-//        return super.onCreateViewHolder(parent, viewType);
-//    }
-//
-//    @Override
-//    public void onBindViewHolder(BaseRecyclerViewHolder holder, int position) {
-//        super.onBindViewHolder(holder, position);
-////        if (getItemViewType(position) == TYPE_HEADER) {
-////            if (holder instanceof MovieHeaderViewHolder) {
-////                bindMovieHeaderView(((MovieHeaderViewHolder) holder), position);
-////            }
-////            return;
-////        }
-////        if (getItemViewType(position) == TYPE_AD) {
-////            if (holder instanceof MovieAdvertiseViewHolder) {
-////                bindMovieAdvertiseView(((MovieAdvertiseViewHolder) holder), position);
-////            }
-////            return;
-////        }
-//        if (getItemViewType(position) == TYPE_NORMAL) {
-//           // super.onBindViewHolder(holder, position);//需要调用super,在supper中对click listener初始化
-//            if (holder instanceof MovieViewHolder) {
-//                bindMovieView(((MovieViewHolder) holder), position);
-//            }
-//            return;
-//        }
-//    }
-
-
     @Override
     public MovieViewHolder onCreateViewHolderNormal(ViewGroup parent) {
         View mView = LayoutInflater.from(mContext).inflate(R.layout.item_hot_movie, parent, false);
