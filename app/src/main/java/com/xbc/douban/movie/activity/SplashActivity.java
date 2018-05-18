@@ -21,7 +21,13 @@ public class SplashActivity extends BaseActivity {
         initListener();
     }
 
-    private void initView() {
+    @Override
+    protected void initIntent() {
+
+    }
+
+    @Override
+    protected void initView() {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -34,7 +40,8 @@ public class SplashActivity extends BaseActivity {
         }, 2000);
     }
 
-    private void initListener() {
+    @Override
+    protected void initListener() {
 
     }
 }

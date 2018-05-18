@@ -46,14 +46,16 @@ public class CelebrityImageAdapter extends RecyclerView.Adapter<BaseRecyclerView
     public void onBindViewHolder(BaseRecyclerViewHolder holder, int position) {
         if (holder instanceof CelebrityViewHolder) {
             CelebrityViewHolder celebrityHolder = ((CelebrityViewHolder) holder);
-            celebrityHolder.ivImage.setImageResource(R.drawable.ic_hot_normal);
+            celebrityHolder.ivImage.setImageResource(R.drawable.movie_default_large);
             CastsBean castsBean = mData.get(position);
-            GlideApp.with(holder.itemView)
-                    .load(castsBean.avatars.medium)
-                    .into(celebrityHolder.ivImage);
+            if (castsBean.avatars != null) {
+                GlideApp.with(holder.itemView)
+                        .load(castsBean.avatars.medium)
+                        .into(celebrityHolder.ivImage);
+                Log.e("xbc", castsBean.avatars.medium);
+            }
             celebrityHolder.tvName.setText(castsBean.name);
             celebrityHolder.tvPosition.setText(castsBean.type);
-            Log.e("xbc", castsBean.avatars.medium);
         }
     }
 

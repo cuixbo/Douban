@@ -19,9 +19,20 @@ public class MainActivity extends BaseActivity {
         initView();
     }
 
-    private void initView() {
+    @Override
+    protected void initIntent() {
+
+    }
+
+    @Override
+    protected void initView() {
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().add(R.id.fl_fragment_container, new HotMovieFragment()).commitAllowingStateLoss();
+    }
+
+    @Override
+    protected void initListener() {
+
     }
 
 }

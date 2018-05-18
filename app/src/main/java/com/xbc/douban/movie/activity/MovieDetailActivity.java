@@ -59,7 +59,13 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
         mPresenter.start();
     }
 
-    private void initView() {
+    @Override
+    protected void initIntent() {
+
+    }
+
+    @Override
+    protected void initView() {
         mBtnLeft = (IconView) findViewById(R.id.btn_left);
         mTvTitle = (TextView) findViewById(R.id.tv_title);
         mBtnRight = (IconView) findViewById(R.id.btn_right);
@@ -84,7 +90,8 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
         mCelebrityRecyclerView.setAdapter(mCelebrityAdapter);
     }
 
-    private void initListener() {
+    @Override
+    protected void initListener() {
         findViewById(R.id.btn_left).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

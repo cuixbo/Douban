@@ -82,12 +82,15 @@ public class MovieAdapter extends LoadMoreRecyclerAdapter<MovieAdapter.MovieView
                 }
             }
         }
-
-        GlideApp.with(holder.itemView)
-                .load(itemBean.images.large)
-                .into(holder.ivImage);
+        if (itemBean.images!=null) {
+            GlideApp.with(holder.itemView)
+                    .load(itemBean.images.large)
+                    .into(holder.ivImage);
+        }
         holder.tvName.setText(itemBean.title);
-        holder.rbStars.setRating((float) (itemBean.rating.average / itemBean.rating.max) * 5);
+        if (itemBean.rating!=null) {
+            holder.rbStars.setRating((float) (itemBean.rating.average / itemBean.rating.max) * 5);
+        }
         holder.tvDirector.setText("导演:" + director);
         holder.tvCast.setText("演员:" + cast);
         holder.tvCollect.setText(itemBean.collect_count + "人看过");

@@ -156,10 +156,10 @@ public abstract class BaseFragment extends Fragment {
         Log.e("xbc", prefix);
     }
 
-    public abstract void initIntent();
+    protected abstract void initIntent();
 
-    public abstract void initView();
+    protected abstract void initView();
 
-    public abstract void initListener();
+    protected abstract void initListener();
 
 }

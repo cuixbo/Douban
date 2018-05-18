@@ -1,5 +1,6 @@
 package com.xbc.douban.base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,7 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
     protected Context mContext;
 
     @Override
@@ -70,6 +71,20 @@ public class BaseActivity extends AppCompatActivity {
         super.onAttachFragment(fragment);
         log();
     }
+
+    public Activity getActivity() {
+        return this;
+    }
+
+    public Context getContext() {
+        return this;
+    }
+
+    protected abstract void initIntent();
+
+    protected abstract void initView();
+
+    protected abstract void initListener();
 
     public void log(String log) {
         StackTraceElement[] elements = Thread.currentThread().getStackTrace();

@@ -20,6 +20,9 @@ public interface MovieService {
     @GET("movie/coming_soon")
     Call<MovieResponse> getComingSoon(@Query("start") int start, @Query("count") int count);
 
+    @GET("movie/search")
+    Call<MovieResponse> searchMovie(@Query("q") String content,@Query("start") int start, @Query("count") int count);
+
     @GET("movie/subject/{id}")
     Call<SubjectsBean> getMovieSubject(@Path("id") String id);
 

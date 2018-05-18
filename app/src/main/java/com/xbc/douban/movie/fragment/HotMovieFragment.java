@@ -1,5 +1,6 @@
 package com.xbc.douban.movie.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.xbc.douban.R;
 import com.xbc.douban.base.BaseFragment;
+import com.xbc.douban.movie.activity.MovieSearchActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,7 @@ public class HotMovieFragment extends BaseFragment {
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
+    private View mLayoutSearch;
     private List<Fragment> mFragments = new ArrayList<Fragment>();
     private String[] mTitles = new String[]{"正在热映", "即将上映"};
 
@@ -54,6 +57,7 @@ public class HotMovieFragment extends BaseFragment {
     public void initView() {
         mTabLayout = (TabLayout) getView().findViewById(R.id.tab_layout);
         mViewPager = (ViewPager) getView().findViewById(R.id.view_pager);
+        mLayoutSearch =  getView().findViewById(R.id.layout_search);
 
         mFragments.add(new InTheaterMovieFragment());
         mFragments.add(new ComingSoonMovieFragment());
@@ -92,6 +96,13 @@ public class HotMovieFragment extends BaseFragment {
 
     @Override
     public void initListener() {
+        mLayoutSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(),MovieSearchActivity.class));
+            }
+        });
+
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

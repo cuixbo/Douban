@@ -36,4 +36,11 @@ public class MovieModel extends BaseModel {
                 .getMovieSubject(id)
                 .enqueue(callback);
     }
+
+    public void searchMovie(String content, Callback<MovieResponse> callback) {
+        RetrofitManager.getInstance()
+                .getMovieService()
+                .searchMovie(content, 0, 20)
+                .enqueue(callback);
+    }
 }
